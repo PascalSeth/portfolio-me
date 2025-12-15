@@ -50,9 +50,9 @@ const testimonials = [
 
 const stats = [
   { value: "98%", label: "Client Satisfaction" },
-  { value: "50+", label: "Projects Completed" },
-  { value: "340%", label: "Average ROI Increase" },
-  { value: "24hrs", label: "Average Response Time" }
+  { value: "15+", label: "Projects Completed" },
+  { value: "200%", label: "Average ROI Increase" },
+  { value: "8hrs", label: "Average Response Time" }
 ];
 
 const trustedClients = [

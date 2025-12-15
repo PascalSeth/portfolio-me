@@ -2,6 +2,9 @@
 
 import { motion } from 'framer-motion';
 import { Mail, MessageCircle, Calendar, MapPin, Phone, Send } from 'lucide-react';
+import { toast } from 'sonner';
+import { useForm } from '@formspree/react';
+import { useEffect } from 'react';
 
 const contactMethods = [
   {
@@ -28,6 +31,14 @@ const contactMethods = [
 ];
 
 export default function Contact() {
+  const [state, handleSubmit] = useForm("mwpgjkww");
+
+  useEffect(() => {
+    if (state.succeeded) {
+      toast.success('Message sent successfully! Will get back to you soon.');
+    }
+  }, [state.succeeded]);
+
    return (
      <section id="contact" className="py-20 bg-muted/30">
       <div className="container mx-auto px-6 lg:px-12">
@@ -75,7 +86,7 @@ export default function Contact() {
               Send Me a Message
             </h3>
 
-            <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-2">
@@ -83,6 +94,7 @@ export default function Contact() {
                   </label>
                   <input
                     type="text"
+                    name="name"
                     className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors"
                     placeholder="Your name"
                   />
@@ -93,6 +105,7 @@ export default function Contact() {
                   </label>
                   <input
                     type="email"
+                    name="email"
                     className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors"
                     placeholder="your@email.com"
                   />
@@ -103,7 +116,7 @@ export default function Contact() {
                 <label className="block text-sm font-medium text-foreground mb-2">
                   Project Type
                 </label>
-                <select className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                <select name="projectType" className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
                   <option value="">Select a service</option>
                   <option value="web-app">Web Application</option>
                   <option value="mobile-app">Mobile App</option>
@@ -118,7 +131,7 @@ export default function Contact() {
                 <label className="block text-sm font-medium text-foreground mb-2">
                   Budget Range
                 </label>
-                <select className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
+                <select name="budget" className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
                   <option value="">Select budget range</option>
                   <option value="under-1k">Under $1,000</option>
                   <option value="1k-5k">$1,000 - $5,000</option>
@@ -133,6 +146,7 @@ export default function Contact() {
                 </label>
                 <textarea
                   rows={4}
+                  name="message"
                   className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors resize-none"
                   placeholder="Tell me about your project..."
                 />
@@ -142,9 +156,10 @@ export default function Contact() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 type="submit"
-                className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-lg transition-colors shadow-lg"
+                disabled={state.submitting}
+                className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-lg transition-colors shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Send Message
+                {state.submitting ? 'Sending...' : 'Send Message'}
                 <Send className="w-4 h-4" />
               </motion.button>
             </form>

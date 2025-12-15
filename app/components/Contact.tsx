@@ -28,8 +28,8 @@ const contactMethods = [
 ];
 
 export default function Contact() {
-  return (
-    <section className="py-20 bg-muted/30">
+   return (
+     <section id="contact" className="py-20 bg-muted/30">
       <div className="container mx-auto px-6 lg:px-12">
         {/* Header */}
         <motion.div

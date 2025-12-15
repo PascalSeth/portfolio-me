@@ -23,9 +23,9 @@ const FloatingBadge = ({
 
 function Hero() {
   return (
-    <section className="relative min-h-screen bg-background overflow-hidden">
+    <section id="hero" className="relative min-h-screen bg-background overflow-hidden">
       {/* Main content container */}
-      <div className="container mx-auto px-6 lg:px-12 min-h-screen flex ">
+      <div className=" mx-auto px-6 lg:px-12 min-h-screen flex ">
         <div className="grid grid-cols-1 lg:grid-cols-2  items-center w-full py-6">
           
           {/* Left side - Image and badges */}

@@ -76,7 +76,7 @@ export default function Testimonials() {
   }, [isPaused]);
 
   return (
-    <section className="py-20 bg-background">
+    <section id="testimonials" className="py-20 bg-background">
       <div className="container mx-auto px-6 lg:px-12">
         {/* Header */}
         <motion.div

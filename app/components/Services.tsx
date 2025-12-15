@@ -71,8 +71,8 @@ const cardVariants = {
 };
 
 export default function Services() {
-  return (
-    <section className="relative py-20 md:py-28 overflow-hidden">
+   return (
+     <section id="services" className="relative py-20 md:py-28 overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 bg-background" />
 

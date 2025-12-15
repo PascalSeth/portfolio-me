@@ -113,13 +113,13 @@ export default function Project() {
   const personalProjects = projects.filter(p => p.category === 'personal');
 
   return (
-    <>
+    <div id="projects">
       {/* Real Projects Section */}
       <ProjectSection title="Real Projects" description="Professional projects I've developed for clients and businesses." projects={realProjects} />
 
       {/* Personal Projects Section */}
       <ProjectSection title="Personal Projects" description="Personal projects and experiments I've built for learning and fun." projects={personalProjects} />
-    </>
+    </div>
   );
 }
 

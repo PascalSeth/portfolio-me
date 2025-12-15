@@ -2,24 +2,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { motion } from 'framer-motion'
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet"
 
-
-const container = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1
-    }
-  }
-}
-
-const item = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0 }
-}
 
 function Navbar() {
 
@@ -37,22 +21,46 @@ function Navbar() {
     <Link href="#services" className='mx-4'>Services</Link>
 </div>
 <div className='md:hidden'>
-  <Popover>
-    <PopoverTrigger asChild>
+  <Sheet>
+    <SheetTrigger asChild>
       <button className='text-2xl'>
         ☰
       </button>
-    </PopoverTrigger>
-    <PopoverContent className="w-screen" side="bottom" align="start">
-      <motion.div variants={container} initial="hidden" animate="show" className='flex flex-col py-4'>
-        <motion.a variants={item} href="#hero" className='px-6 py-3 hover:bg-accent transition-colors'>Home</motion.a>
-        <motion.a variants={item} href="#projects" className='px-6 py-3 hover:bg-accent transition-colors'>Projects</motion.a>
-        <motion.a variants={item} href="#about" className='px-6 py-3 hover:bg-accent transition-colors'>About</motion.a>
-        <motion.a variants={item} href="#contact" className='px-6 py-3 hover:bg-accent transition-colors'>Contact</motion.a>
-        <motion.a variants={item} href="#services" className='px-6 py-3 hover:bg-accent transition-colors'>Services</motion.a>
-      </motion.div>
-    </PopoverContent>
-  </Popover>
+    </SheetTrigger>
+    <SheetContent side="right" className="w-[300px] sm:w-[400px]  z-9999">
+      <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
+      <div className="flex flex-col h-full">
+        <div className="flex items-center gap-2 p-6 border-b border-border">
+          <Image src="https://i.pinimg.com/736x/dc/60/ad/dc60ad257a10f6c5944187fe5763c764.jpg" alt="Logo" width={40} height={30} />
+          <span className="font-semibold text-lg">Pascal Seth</span>
+        </div>
+        <nav className="flex-1 py-6">
+          <div className="space-y-2">
+            <Link href="#hero" className='flex items-center gap-3 px-6 py-3 rounded-lg hover:bg-accent transition-all duration-200 hover:translate-x-1'>
+              <span className="text-primary">🏠</span>
+              Home
+            </Link>
+            <Link href="#projects" className='flex items-center gap-3 px-6 py-3 rounded-lg hover:bg-accent transition-all duration-200 hover:translate-x-1'>
+              <span className="text-primary">💼</span>
+              Projects
+            </Link>
+            <Link href="#about" className='flex items-center gap-3 px-6 py-3 rounded-lg hover:bg-accent transition-all duration-200 hover:translate-x-1'>
+              <span className="text-primary">👤</span>
+              About
+            </Link>
+            <Link href="#contact" className='flex items-center gap-3 px-6 py-3 rounded-lg hover:bg-accent transition-all duration-200 hover:translate-x-1'>
+              <span className="text-primary">📧</span>
+              Contact
+            </Link>
+            <Link href="#services" className='flex items-center gap-3 px-6 py-3 rounded-lg hover:bg-accent transition-all duration-200 hover:translate-x-1'>
+              <span className="text-primary">⚡</span>
+              Services
+            </Link>
+          </div>
+        </nav>
+      </div>
+    </SheetContent>
+  </Sheet>
 </div>
 </div>
     </div>

@@ -12,7 +12,7 @@ const testimonials = [
     author: "Emmanuel Asare",
     role: "Founder",
     company: "Tranzbook",
-    avatar: "/avatar.jpg",
+    avatar: "",
     results: ["5000+ monthly bookings", "99.9% uptime", "Revenue growth 300%"],
     rating: 5
   },
@@ -22,7 +22,7 @@ const testimonials = [
     author: "Francis Osei",
     role: "CEO",
     company: "Myclean App",
-    avatar: "/avatar.jpg",
+    avatar: "",
     results: ["2000+ customers served", "500+ providers onboarded", "4.8★ average rating"],
     rating: 5
   },
@@ -32,7 +32,7 @@ const testimonials = [
     author: "JL Mensah",
     role: "Owner",
     company: "JL Espresso",
-    avatar: "/avatar.jpg",
+    avatar: "",
     results: ["150% sales increase", "Streamlined operations", "Enhanced customer experience"],
     rating: 5
   },
@@ -42,7 +42,7 @@ const testimonials = [
     author: "Dr. Raymond Addo",
     role: "Medical Director",
     company: "RayHealth",
-    avatar: "/avatar.jpg",
+    avatar: "",
     results: ["10k+ downloads", "95% user satisfaction", "Improved patient outcomes"],
     rating: 5
   }
@@ -144,7 +144,7 @@ export default function Testimonials() {
                   {/* Author */}
                   <div className="flex items-center gap-4">
                     <Image
-                      src={testimonial.avatar}
+                      src={testimonial.avatar || "https://i.pinimg.com/736x/76/f3/f3/76f3f3007969fd3b6db21c744e1ef289.jpg"}
                       alt={testimonial.author}
                       width={48}
                       height={48}

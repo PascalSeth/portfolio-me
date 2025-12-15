@@ -7,15 +7,15 @@ const contactMethods = [
   {
     icon: Mail,
     label: 'Email',
-    value: 'hello@pascalseth.dev',
-    href: 'mailto:hello@pascalseth.dev',
+    value: 'pascalelikem@gmail.com',
+    href: 'mailto:pascalelikem@gmail.com',
     description: 'Typically reply within 2 hours'
   },
   {
     icon: MessageCircle,
     label: 'WhatsApp',
-    value: '+1 (555) 123-4567',
-    href: 'https://wa.me/15551234567',
+    value: '+233 54 371 1728',
+    href: 'https://wa.me/+233543711728',
     description: 'Quick questions & updates'
   },
   {
@@ -75,7 +75,7 @@ export default function Contact() {
               Send Me a Message
             </h3>
 
-            <form className="space-y-6">
+            <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-2">
@@ -120,10 +120,10 @@ export default function Contact() {
                 </label>
                 <select className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-colors">
                   <option value="">Select budget range</option>
-                  <option value="under-5k">Under $5,000</option>
+                  <option value="under-1k">Under $1,000</option>
+                  <option value="1k-5k">$1,000 - $5,000</option>
                   <option value="5k-15k">$5,000 - $15,000</option>
-                  <option value="15k-30k">$15,000 - $30,000</option>
-                  <option value="over-30k">Over $30,000</option>
+                  <option value="over-15k">Over $15,000</option>
                 </select>
               </div>
 
@@ -172,6 +172,8 @@ export default function Contact() {
                 <motion.a
                   key={method.label}
                   href={method.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}

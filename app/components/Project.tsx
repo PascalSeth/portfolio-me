@@ -113,7 +113,7 @@ export default function Project() {
   const personalProjects = projects.filter(p => p.category === 'personal');
 
   return (
-    <div id="projects">
+    <div id="projects " className="overflow-x-hidden">
       {/* Real Projects Section */}
       <ProjectSection title="Real Projects" description="Professional projects I've developed for clients and businesses." projects={realProjects} />
 

@@ -1,12 +1,27 @@
 'use client'
 import Image from 'next/image'
 import Link from 'next/link'
-import React, { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import React from 'react'
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { motion } from 'framer-motion'
 
+
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+}
+
+const item = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0 }
+}
 
 function Navbar() {
-  const [isOpen, setIsOpen] = useState(false)
 
   return (
     <div className='flex sticky bg-white overflow-x-hidden top-0 right-0 left-0 w-full p-2 z-999'>
@@ -22,29 +37,23 @@ function Navbar() {
     <Link href="#services" className='mx-4'>Services</Link>
 </div>
 <div className='md:hidden'>
-  <button onClick={() => setIsOpen(!isOpen)} className='text-2xl'>
-    ☰
-  </button>
+  <Popover>
+    <PopoverTrigger asChild>
+      <button className='text-2xl'>
+        ☰
+      </button>
+    </PopoverTrigger>
+    <PopoverContent className="w-screen" side="bottom" align="start">
+      <motion.div variants={container} initial="hidden" animate="show" className='flex flex-col py-4'>
+        <motion.a variants={item} href="#hero" className='px-6 py-3 hover:bg-accent transition-colors'>Home</motion.a>
+        <motion.a variants={item} href="#projects" className='px-6 py-3 hover:bg-accent transition-colors'>Projects</motion.a>
+        <motion.a variants={item} href="#about" className='px-6 py-3 hover:bg-accent transition-colors'>About</motion.a>
+        <motion.a variants={item} href="#contact" className='px-6 py-3 hover:bg-accent transition-colors'>Contact</motion.a>
+        <motion.a variants={item} href="#services" className='px-6 py-3 hover:bg-accent transition-colors'>Services</motion.a>
+      </motion.div>
+    </PopoverContent>
+  </Popover>
 </div>
-<AnimatePresence>
-  {isOpen && (
-    <motion.div
-      initial={{ opacity: 0, height: 0 }}
-      animate={{ opacity: 1, height: 'auto' }}
-      exit={{ opacity: 0, height: 0 }}
-      transition={{ duration: 0.3 }}
-      className='md:hidden absolute top-full left-0 right-0 bg-card border-b border-border shadow-lg z-50 overflow-hidden'
-    >
-      <div className='flex flex-col py-4'>
-        <Link href="#hero" className='px-6 py-3 hover:bg-accent transition-colors' onClick={() => setIsOpen(false)}>Home</Link>
-        <Link href="#projects" className='px-6 py-3 hover:bg-accent transition-colors' onClick={() => setIsOpen(false)}>Projects</Link>
-        <Link href="#about" className='px-6 py-3 hover:bg-accent transition-colors' onClick={() => setIsOpen(false)}>About</Link>
-        <Link href="#contact" className='px-6 py-3 hover:bg-accent transition-colors' onClick={() => setIsOpen(false)}>Contact</Link>
-        <Link href="#services" className='px-6 py-3 hover:bg-accent transition-colors' onClick={() => setIsOpen(false)}>Services</Link>
-      </div>
-    </motion.div>
-  )}
-</AnimatePresence>
 </div>
     </div>
   )

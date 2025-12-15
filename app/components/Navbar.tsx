@@ -8,7 +8,7 @@ import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/s
 function Navbar() {
 
   return (
-    <div className='flex sticky bg-white overflow-x-hidden top-0 right-0 left-0 w-full p-2 z-999'>
+    <div className='flex fixed bg-white overflow-x-hidden top-0 right-0 left-0 w-full p-2 z-999'>
 <div className='max-w-6xl w-full flex justify-between items-center mx-auto relative'>
 <div>
 <Image src="https://i.pinimg.com/736x/dc/60/ad/dc60ad257a10f6c5944187fe5763c764.jpg" alt="Logo" width={60} height={40} />

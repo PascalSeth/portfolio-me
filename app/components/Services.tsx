@@ -8,7 +8,7 @@ const services = [
     description: "Custom web applications that solve real business problems.",
     technologies: ["React", "Next.js", "TypeScript", "Node.js"],
     outcomes: ["50% faster tasks", "Real-time features", "Optimized UX"],
-    price: "From $800",
+    price: "From $500",
     image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&q=80",
   },
   {
@@ -16,7 +16,7 @@ const services = [
     description: "Native and progressive web apps that engage users.",
     technologies: ["React Native", "Flutter", "PWA"],
     outcomes: ["App Store featured", "90% retention"],
-    price: "From $950",
+    price: "From $750",
     image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&q=80",
   },
   {
@@ -24,7 +24,7 @@ const services = [
     description: "High-converting stores with automation.",
     technologies: ["Shopify", "Stripe", "WooCommerce"],
     outcomes: ["340% conversion boost", "LTV +200%"],
-    price: "From $1000",
+    price: "From $800",
     image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80",
   },
   {
@@ -48,7 +48,7 @@ const services = [
     description: "End-to-end digital transformation.",
     technologies: ["Custom Software", "CRM", "Analytics"],
     outcomes: ["Full optimization", "CAC -50%"],
-    price: "From $1,000",
+    price: "From $800",
     image: "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=800&q=80",
   },
 ];

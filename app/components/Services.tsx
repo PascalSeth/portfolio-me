@@ -1,6 +1,6 @@
 'use client'
 import { motion } from "framer-motion";
-import { ArrowRight, Sparkles, Check } from "lucide-react";
+import { ArrowRight,  Check } from "lucide-react";
 
 const services = [
   {
@@ -92,7 +92,6 @@ export default function Services() {
             viewport={{ once: true }}
             className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-full bg-primary/10 text-primary mb-5"
           >
-            <Sparkles className="w-4 h-4" />
             What I Offer
           </motion.span>
 

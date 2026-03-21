@@ -1,9 +1,10 @@
 'use client';
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import { flushSync } from 'react-dom';
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Terminal } from "lucide-react";
 
 interface Project {
   id: number;
@@ -101,6 +102,8 @@ const projects: Project[] = [
 
 export default function Project() {
   const container = useRef(null);
+  const [visibleCount, setVisibleCount] = useState(5);
+  const visibleProjects = projects.slice(0, visibleCount);
   
   // Track scroll over the entire wrapper to synchronize the 3D shrink and upward offset
   const { scrollYProgress } = useScroll({
@@ -119,67 +122,110 @@ export default function Project() {
 
       {/* 
         This is the physical scrolling lane.
-        Cards are spaced out using gap-[60vh] so the user must scroll 60vh to see the next card stick.
+        Cards are spaced out using gap-[50svh] so the user must scroll 50svh to see the next card stick.
         This provides a flawless native CSS scroll experience without overhanging containers.
       */}
-      <div className="relative w-full max-w-[1100px] mx-auto px-4 md:px-8 flex flex-col pt-[5svh]" style={{ gap: '60svh' }}>
-        {projects.map((project, i) => {
+      <div className="relative w-full max-w-[1100px] mx-auto px-4 md:px-8 flex flex-col pt-[5svh]" style={{ gap: '50svh' }}>
+        {visibleProjects.map((project, i) => {
           return (
             <Card 
               key={project.id} 
               project={project} 
               index={i} 
-              total={projects.length} 
-              progress={scrollYProgress} 
             />
           )
         })}
 
         {/* 
-          CRITICAL FIX: A 25vh spacer at the bottom of the section.
-          This ensures the last card has plenty of room to rest and fully complete its transition.
-          When the About section comes up, it encounters this blank gap first, pushing the sticky stack 
-          perfectly up without ever overlapping the cards' text or visuals.
+          CRITICAL FIX: A 20svh spacer at the bottom of the section.
+          This ensures the last card has exactly the right mathematical room (100svh - 80svh) to finish its transform without overlapping with the native CSS unpin.
         */}
-        <div className="h-[25svh] w-full" />
+        <div id="scan-btn-container" className="h-[20svh] w-full flex items-center justify-center relative z-20">
+            {visibleCount < projects.length && (
+              <button 
+                onClick={() => setVisibleCount(prev => Math.min(prev + 5, projects.length))}
+                className="group relative px-8 py-4 bg-[#0a0a0a] border border-cyan-500/50 font-mono text-xs md:text-sm uppercase tracking-[0.3em] overflow-hidden transition-all hover:border-cyan-400 hover:bg-cyan-950/40 hover:shadow-[0_0_30px_rgba(34,211,238,0.4)] shadow-[0_10px_40px_-10px_rgba(0,0,0,0.8)] z-50 rounded-lg"
+              >
+                <div className="absolute inset-0 bg-cyan-500/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none" />
+                <span className="relative z-10 flex items-center gap-3 text-cyan-400 font-bold mix-blend-plus-lighter">
+                  <Terminal className="w-4 h-4 text-cyan-400" /> 
+                  Load More Projects //
+                </span>
+                <span className="absolute bottom-0 right-0 w-2 h-2 bg-fuchsia-500" />
+                <span className="absolute top-0 left-0 w-2 h-2 bg-cyan-400" />
+              </button>
+            )}
+
+            {visibleCount > 5 && (
+              <button 
+                onClick={() => {
+                  const btn = document.getElementById('scan-btn-container');
+                  let previousY = btn?.getBoundingClientRect().top;
+              
+                  flushSync(() => {
+                    setVisibleCount(5);
+                  });
+              
+                  let newY = btn?.getBoundingClientRect().top;
+                  if (previousY !== undefined && newY !== undefined) {
+                    window.scrollBy({ top: newY - previousY, behavior: 'instant' });
+                  }
+                }}
+                className="group relative px-8 py-4 bg-[#0a0a0a] border border-fuchsia-500/50 font-mono text-xs md:text-sm uppercase tracking-[0.3em] overflow-hidden transition-all hover:border-fuchsia-400 hover:bg-fuchsia-950/40 hover:shadow-[0_0_30px_rgba(217,70,239,0.4)] shadow-[0_10px_40px_-10px_rgba(0,0,0,0.8)] z-50 rounded-lg text-fuchsia-400 font-bold mix-blend-plus-lighter"
+              >
+                <div className="absolute inset-0 bg-fuchsia-500/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300 pointer-events-none" />
+                <span className="relative z-10 flex items-center gap-3 text-fuchsia-400 font-bold mix-blend-plus-lighter">
+                  <Terminal className="w-4 h-4 text-fuchsia-400" /> 
+                  Show Less Projects //
+                </span>
+                <span className="absolute bottom-0 right-0 w-2 h-2 bg-cyan-400" />
+                <span className="absolute top-0 left-0 w-2 h-2 bg-fuchsia-500" />
+              </button>
+            )}
+        </div>
       </div>
 
     </section>
   )
 }
 
-function Card({ project, index, total, progress }: any) {
-  const container = useRef<HTMLDivElement>(null);
+function Card({ project, index }: any) {
+  const tracker = useRef<HTMLDivElement>(null);
   
-  // As this card gets pushed deeper into the stack by new cards, scale it down slightly
-  const targetScale = 1 - ((total - index) * 0.04);
-  const cardScale = useTransform(progress, [index / total, 1], [1, targetScale]);
-  
-  // Stacking UPWARDS mechanics to prevent bottom-falling
-  const cardsPiledOnTop = total - index - 1; 
-  const targetY = -(cardsPiledOnTop * 35); // 35px upwards thrust per overlaying card
-  const upwardYOffset = useTransform(progress, [index / total, 1], [0, targetY]);
+  // Independent scroll tracking using a fixed-height invisible anchor.
+  // This completely decouples the card's animation from the container's dynamic array length!
+  // It fixes the "Show More" jump since previously-loaded trackers don't change height.
+  const { scrollYProgress } = useScroll({
+    target: tracker,
+    offset: ["start 15vh", "end 15vh"]
+  });
 
-  // Darken older cards organically
-  const targetDarken = ((total - index - 1) * 0.15);
-  const cardOverlayOpacity = useTransform(progress, [index / total, 1], [0, targetDarken]);
+  // Scale down and push up gently as the user scrolls over 250svh (approx 2 cards of depth)
+  const cardScale = useTransform(scrollYProgress, [0, 1], [1, 0.92]);
+  const upwardYOffset = useTransform(scrollYProgress, [0, 1], [0, -50]);
+  const cardOverlayOpacity = useTransform(scrollYProgress, [0, 1], [0, 0.5]);
 
   return (
-    <div 
-      ref={container} 
-      className="sticky flex items-start justify-center w-full z-10"
-      // strictly fixing top to 15svh guarantees it never wildly drops off the screen due to mobile address bar resize
-      style={{ top: '15svh' }}
-    >
+    <>
+      {/* Absolute tracker physically pinned perfectly parallel with where this card inherently lives in the DOM. */}
+      {/* top calculation: parent pt is 5svh, each card takes 75svh + 50svh gap = 125svh step-size! */}
+      <div 
+         ref={tracker} 
+         className="absolute left-0 w-px h-[250svh] pointer-events-none"
+         style={{ top: `calc(5svh + ${index * 125}svh)` }} 
+      />
+      <div 
+        className="sticky flex items-start justify-center w-full z-10"
+        // strictly fixing top to 15svh guarantees it never wildly drops off the screen due to mobile address bar resize
+        style={{ top: '15svh' }}
+      >
       <motion.div 
         style={{ 
           scale: cardScale,
           y: upwardYOffset,
           willChange: "transform",
         }} 
-        // Force height to strictly 65svh so top (15svh) + height (65svh) = 80svh.
-        // The card ALWAYS leaves 20svh of blank scrolling room at the bottom of the monitor, preventing overlap.
-        className="w-full flex justify-center origin-top transform-gpu h-[65svh] min-h-[500px] max-h-[700px]"
+        className="w-full flex justify-center origin-top transform-gpu h-[75svh] lg:h-[70svh] min-h-[500px] max-h-[750px]"
       >
         <div className="relative flex flex-col md:flex-row w-full h-full bg-neutral-900 border border-white/10 rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-[0_-20px_60px_-15px_rgba(0,0,0,0.8)]">
           
@@ -215,7 +261,7 @@ function Card({ project, index, total, progress }: any) {
             </div>
             
             <a href={project.liveUrl} target="_blank" rel="noreferrer" className="group w-max flex items-center justify-center gap-3 px-6 md:px-8 py-3 md:py-4 bg-white text-black font-semibold text-xs md:text-sm rounded-full hover:bg-primary hover:text-white transition-all transform hover:scale-105 shadow-xl mt-4 md:mt-6">
-               View Experience <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+               View Site <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
             </a>
           </div>
 
@@ -236,5 +282,6 @@ function Card({ project, index, total, progress }: any) {
         </div>
       </motion.div>
     </div>
+    </>
   )
 }

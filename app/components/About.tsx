@@ -8,8 +8,8 @@ import { Terminal, Cpu, Database, Network } from 'lucide-react';
 const stats = [
   { label: 'System Uptime', value: '99.9%', icon: Cpu },
   { label: 'Projects Deployed', value: '15+', icon: Database },
-  { label: 'Active Nodes', value: '20+', icon: Network },
-  { label: 'Commits', value: '10k+', icon: Terminal }
+  { label: 'Clients Worldwide', value: '20+', icon: Network },
+  { label: 'Hours Coded', value: '10k+', icon: Terminal }
 ];
 
 export default function About() {
@@ -38,10 +38,10 @@ export default function About() {
         <div className="flex flex-col mb-16 md:mb-24 border-l-2 border-cyan-500 pl-6 relative">
           <div className="absolute -left-[5px] top-0 w-2 h-2 bg-cyan-400 shadow-[0_0_15px_#22d3ee]" />
           <p className="text-cyan-400 font-mono tracking-[0.2em] uppercase mb-4 text-xs md:text-sm flex items-center gap-3">
-            <span className="w-6 h-[1px] bg-cyan-400" /> SYS.INFO // IDENTIFICATION
+            <span className="w-6 h-[1px] bg-cyan-400" /> ABOUT // PROFILE
           </p>
           <h2 className="text-4xl md:text-6xl lg:text-[80px] font-display font-medium text-white uppercase tracking-tighter leading-none shadow-black drop-shadow-lg">
-            Operator <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-fuchsia-500 italic pr-4">Profile.</span>
+            My <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-fuchsia-500 italic pr-4">Profile.</span>
           </h2>
         </div>
 
@@ -83,8 +83,8 @@ export default function About() {
              
              {/* Overlay Technical UI element */}
              <div className="absolute bottom-8 right-[-1rem] md:right-[-2rem] bg-black/80 backdrop-blur-xl border border-cyan-500/50 p-4 rounded-xl flex flex-col gap-1 shadow-[0_10px_30px_rgba(0,0,0,0.8)] z-30 transform hover:scale-105 transition-transform duration-300">
-                <span className="text-[10px] text-cyan-400 font-mono tracking-widest uppercase flex items-center justify-between gap-4">Target Lock <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" /></span>
-                <span className="text-white font-mono text-sm tracking-widest border-t border-white/10 pt-1 mt-1">P. SETH / DEV</span>
+                <span className="text-[10px] text-cyan-400 font-mono tracking-widest uppercase flex items-center justify-between gap-4">Status <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" /></span>
+                <span className="text-white font-mono text-sm tracking-widest border-t border-white/10 pt-1 mt-1">PASCAL SETH</span>
              </div>
           </div>
 
@@ -97,15 +97,15 @@ export default function About() {
                
                <h3 className="text-2xl md:text-4xl font-display font-medium text-white mb-8 flex items-center gap-4">
                  <Terminal className="w-8 h-8 text-fuchsia-400" />
-                 Initialize Sequence_
+                 My Background_
                </h3>
                
                <div className="space-y-6 text-gray-300 text-base md:text-lg leading-relaxed font-body relative z-10">
                  <p>
-                   I architect high-performance digital ecosystems. Merging raw computational engineering with a cybernetic aesthetic, I build web experiences that are not only blazingly fast but visually <span className="text-cyan-400 font-bold uppercase tracking-wider text-sm border-b border-cyan-900 pb-1">hypnotic</span>.
+                   I architect high-performance digital ecosystems. Merging solid engineering with a cybernetic aesthetic, I build web experiences that are not only blazingly fast but visually <span className="text-cyan-400 font-bold uppercase tracking-wider text-sm border-b border-cyan-900 pb-1">hypnotic</span>.
                  </p>
                  <p>
-                   Every system I deploy is optimized for seamless user interaction and maximum throughput. Whether it is a scalable full-stack application or an immersive 3D interface, I ensure the protocols are flawlessly executed and structurally infallible.
+                   Every system I deploy is optimized for seamless user interaction and maximum throughput. Whether it is a scalable full-stack application or an immersive 3D interface, I ensure the products are fast, reliable, and beautifully crafted.
                  </p>
                </div>
 

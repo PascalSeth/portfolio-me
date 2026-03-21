@@ -64,13 +64,13 @@ export default function Contact() {
                   viewport={{ once: true }}
                >
                   <span className="font-mono text-[10px] md:text-sm tracking-[0.3em] uppercase text-cyan-400 mb-6 flex items-center gap-3">
-                     <Terminal className="w-4 h-4 text-cyan-400" /> Secure Communications
+                     <Terminal className="w-4 h-4 text-cyan-400" /> Get In Touch
                   </span>
                   <h2 className="text-6xl sm:text-7xl md:text-8xl lg:text-[110px] font-display font-medium tracking-tighter mb-6 text-white leading-[0.8] mix-blend-difference">
-                     INITIATE <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-fuchsia-500 to-white italic pr-4">CONTACT.</span>
+                     LET'S <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-fuchsia-500 to-white italic pr-4">TALK.</span>
                   </h2>
                   <p className="text-white/60 text-base md:text-lg lg:text-xl font-body max-w-lg leading-relaxed">
-                     Have a sophisticated digital project in mind? Let's engineer something breathtaking. My comms link is currently open.
+                     Have a project in mind? Let's build something breathtaking together. I'm currently available for new opportunities.
                   </p>
                </motion.div>
 
@@ -109,13 +109,13 @@ export default function Contact() {
                         <div className="relative group/input mt-4">
                            <input type="text" name="name" required className="w-full bg-transparent border-b border-white/10 pb-4 text-lg lg:text-xl text-white placeholder-transparent focus:outline-none focus:border-cyan-400 peer transition-colors" placeholder="Name" />
                            <label className="absolute left-0 top-0 text-white/40 text-[10px] lg:text-xs uppercase tracking-[0.2em] transition-all peer-placeholder-shown:text-base peer-placeholder-shown:top-0 peer-placeholder-shown:normal-case peer-focus:-top-6 peer-focus:text-[10px] peer-focus:uppercase peer-focus:tracking-[0.2em] peer-focus:text-cyan-400 pointer-events-none -top-6">
-                              Legal Designation (Name)
+                              Your Name
                            </label>
                         </div>
                         <div className="relative group/input mt-4">
                            <input type="email" name="email" required className="w-full bg-transparent border-b border-white/10 pb-4 text-lg lg:text-xl text-white placeholder-transparent focus:outline-none focus:border-cyan-400 peer transition-colors" placeholder="Email" />
                            <label className="absolute left-0 top-0 text-white/40 text-[10px] lg:text-xs uppercase tracking-[0.2em] transition-all peer-placeholder-shown:text-base peer-placeholder-shown:top-0 peer-placeholder-shown:normal-case peer-focus:-top-6 peer-focus:text-[10px] peer-focus:uppercase peer-focus:tracking-[0.2em] peer-focus:text-cyan-400 pointer-events-none -top-6">
-                              Transmission Address (Email)
+                              Your Email
                            </label>
                         </div>
                      </div>
@@ -123,14 +123,14 @@ export default function Contact() {
                      <div className="relative group/input mt-10 text-white">
                         <textarea rows={4} name="message" required className="w-full bg-transparent border-b border-white/10 pb-4 text-lg lg:text-xl text-white placeholder-transparent focus:outline-none focus:border-cyan-400 peer transition-colors resize-none" placeholder="Message" />
                         <label className="absolute left-0 top-0 text-white/40 text-[10px] lg:text-xs uppercase tracking-[0.2em] transition-all peer-placeholder-shown:text-base peer-placeholder-shown:top-0 peer-placeholder-shown:normal-case peer-focus:-top-6 peer-focus:text-[10px] peer-focus:uppercase peer-focus:tracking-[0.2em] peer-focus:text-cyan-400 pointer-events-none -top-6">
-                           Encrypted Message Payload
+                           Your Message
                         </label>
                      </div>
 
                      <div className="pt-8 flex justify-end">
                         <Magnetic>
                            <button type="submit" disabled={state.submitting} className="group/btn relative flex items-center justify-center gap-4 px-10 py-5 lg:py-6 bg-white text-black rounded-[2rem] overflow-hidden disabled:opacity-50 cursor-pointer font-mono tracking-[0.2em] uppercase text-xs font-bold transition-transform hover:scale-[1.02] shadow-[0_0_40px_rgba(255,255,255,0.2)]">
-                              <span className="relative z-10">{state.submitting ? 'Transmitting...' : 'Send Transmission'}</span>
+                              <span className="relative z-10">{state.submitting ? 'Sending...' : 'Send Message'}</span>
                               <Send className="relative z-10 w-4 h-4 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform duration-300" />
                            </button>
                         </Magnetic>

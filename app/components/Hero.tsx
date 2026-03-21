@@ -37,7 +37,7 @@ export default function Hero() {
         >
           <span className="font-mono text-[10px] md:text-sm tracking-[0.4em] uppercase border border-cyan-500/20 bg-cyan-950/20 px-6 py-2 rounded-full flex items-center justify-center lg:justify-start gap-2 shadow-[0_0_30px_rgba(34,211,238,0.15)]">
             <Zap className="w-4 h-4 text-cyan-400" />
-            Multiverse Engine
+            Creative Engineer
           </span>
         </motion.div>
 
@@ -57,7 +57,7 @@ export default function Hero() {
           transition={{ duration: 1, delay: 0.6, ease: "easeOut" }}
           className="text-gray-400 text-sm md:text-base font-body leading-relaxed max-w-sm lg:max-w-md mx-auto lg:mx-0 mb-10"
         >
-          I architect immersive digital ecosystems. A nexus where high-performance engineering converges with breathtaking cybernetic aesthetics.
+          I build immersive digital experiences. A place where high-performance engineering meets beautiful, modern design.
         </motion.p>
         
         <motion.div 
@@ -68,7 +68,7 @@ export default function Hero() {
         >
           <Magnetic>
             <a href="#projects" className="group rounded-full bg-cyan-500 text-black px-8 py-3 font-mono text-xs font-bold uppercase tracking-widest hover:bg-white transition-colors flex items-center gap-3">
-              Initialize Target <ArrowDownRight className="w-4 h-4 group-hover:translate-x-1 group-hover:translate-y-1 transition-transform" />
+              Explore Projects <ArrowDownRight className="w-4 h-4 group-hover:translate-x-1 group-hover:translate-y-1 transition-transform" />
             </a>
           </Magnetic>
         </motion.div>

@@ -50,7 +50,7 @@ export default function Services() {
   const [activeService, setActiveService] = useState<number | null>(null);
 
   return (
-    <section ref={containerRef} id="services" className="relative bg-neutral-950 text-white py-32 lg:py-48 min-h-[150vh]">
+    <section ref={containerRef} id="services" className="relative bg-neutral-950 text-white py-32 lg:py-48 min-h-[150svh]">
       
       {/* 
         BORDERLESS 3D BACKGROUND STICKY LAYER 
@@ -65,7 +65,7 @@ export default function Services() {
             <div className="absolute top-1/4 right-1/4 w-[600px] h-[600px] bg-fuchsia-500/5 rounded-full blur-[150px] z-0" />
             
             {/* The Avatar elegantly positioned in the bottom right corner */}
-            <div className="absolute bottom-10 right-0 lg:right-10 w-full lg:w-[50vw] h-[70vh] lg:h-[85vh] pointer-events-auto z-10 opacity-70 lg:opacity-100 mix-blend-screen transition-opacity duration-1000">
+            <div className="absolute bottom-10 right-0 lg:right-10 w-full lg:w-[50vw] h-[70svh] lg:h-[85svh] pointer-events-auto z-10 opacity-70 lg:opacity-100 mix-blend-screen transition-opacity duration-1000">
                <Avatar 
                   actionName={
                     activeService === null ? "Standing" :
@@ -76,14 +76,14 @@ export default function Services() {
                {/* HUD overlay for the avatar */}
                <div className="absolute bottom-[15%] left-[30%] pointer-events-none hidden lg:flex items-center gap-2">
                  <div className="w-1.5 h-1.5 bg-fuchsia-500 rounded-full animate-pulse" />
-                 <span className="font-mono text-[10px] text-fuchsia-500/50 uppercase tracking-[0.2em]">Target Lock: {activeService !== null ? `Protocol_0${activeService + 1}` : 'Idle'}</span>
+                 <span className="font-mono text-[10px] text-fuchsia-500/50 uppercase tracking-[0.2em]">Viewing: {activeService !== null ? `Service 0${activeService + 1}` : 'Idle'}</span>
                </div>
             </div>
 
             {/* Aggressive fade masks to ensure text legibility on smaller screens */}
             <div className="absolute inset-0 bg-gradient-to-r from-neutral-950 via-neutral-950/90 lg:via-neutral-950/70 to-transparent z-20 pointer-events-none" />
-            <div className="absolute bottom-0 left-0 w-full h-[40vh] bg-gradient-to-t from-neutral-950 via-neutral-950/80 to-transparent z-20 pointer-events-none" />
-            <div className="absolute top-0 left-0 w-full h-[20vh] bg-gradient-to-b from-neutral-950 to-transparent z-20 pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-full h-[40svh] bg-gradient-to-t from-neutral-950 via-neutral-950/80 to-transparent z-20 pointer-events-none" />
+            <div className="absolute top-0 left-0 w-full h-[20svh] bg-gradient-to-b from-neutral-950 to-transparent z-20 pointer-events-none" />
          </div>
       </div>
 
@@ -102,13 +102,13 @@ export default function Services() {
              className="mb-8"
           >
             <span className="font-mono text-[10px] md:text-sm tracking-[0.3em] uppercase text-cyan-400 mb-6 flex items-center gap-3">
-              <Terminal className="w-4 h-4 text-cyan-400" /> System Capabilities
+              <Terminal className="w-4 h-4 text-cyan-400" /> My Services
             </span>
             <h2 className="text-6xl sm:text-7xl md:text-8xl lg:text-[120px] font-display font-medium tracking-tighter text-white mb-6 leading-[0.8] mix-blend-difference">
-              ENGINEERING <br/> <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-fuchsia-500 to-white italic pr-4">EXCELLENCE.</span>
+              WHAT I <br/> <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-fuchsia-500 to-white italic pr-4">DO.</span>
             </h2>
             <p className="text-white/50 font-body text-base lg:text-xl leading-relaxed max-w-lg mt-8">
-              Delivering highly scalable digital ecosystems. From raw cloud infrastructure configurations to breathtaking dynamic interfaces.
+              Delivering highly scalable digital ecosystems. From cloud infrastructure engineering to breathtaking modern interfaces.
             </p>
           </motion.div>
 
@@ -211,7 +211,7 @@ function ServiceRow({ service, index, isActive, onHover }: any) {
 
                 <div className="flex flex-col sm:flex-row gap-6 sm:gap-10">
                   <div className="flex-1">
-                    <p className="font-mono text-[10px] text-cyan-500 uppercase tracking-[0.2em] mb-3 border-b border-cyan-500/20 pb-2">Technical Loadout</p>
+                    <p className="font-mono text-[10px] text-cyan-500 uppercase tracking-[0.2em] mb-3 border-b border-cyan-500/20 pb-2">Technologies Used</p>
                     <div className="flex flex-wrap gap-2">
                       {service.technologies.map((tech: string) => (
                         <span key={tech} className="px-3 py-1 bg-black border border-white/10 text-white/70 text-[10px] font-mono tracking-[0.2em] uppercase rounded">
@@ -222,7 +222,7 @@ function ServiceRow({ service, index, isActive, onHover }: any) {
                   </div>
                   
                   <div className="flex-1 sm:border-l sm:border-white/10 sm:pl-10 mt-6 sm:mt-0">
-                    <p className="font-mono text-[10px] text-fuchsia-500 uppercase tracking-[0.2em] mb-3 border-b border-fuchsia-500/20 pb-2 hidden sm:block">Business Impact</p>
+                    <p className="font-mono text-[10px] text-fuchsia-500 uppercase tracking-[0.2em] mb-3 border-b border-fuchsia-500/20 pb-2 hidden sm:block">Key Benefits</p>
                     <div className="space-y-3">
                       {service.outcomes.map((outcome: string) => (
                         <div key={outcome} className="flex items-center gap-3 text-xs font-mono text-white/50 uppercase tracking-widest">
@@ -234,7 +234,7 @@ function ServiceRow({ service, index, isActive, onHover }: any) {
                 </div>
 
                 <div className="mt-10 pt-6 border-t border-white/5 flex items-center justify-between">
-                   <span className="font-mono text-xs text-white/40 uppercase tracking-[0.2em]">Starting Protocol</span>
+                   <span className="font-mono text-xs text-white/40 uppercase tracking-[0.2em]">Starting At</span>
                    <span className="font-mono text-sm text-cyan-400 font-bold px-4 py-2 border border-cyan-500/20 rounded-full">{service.price}</span>
                 </div>
 

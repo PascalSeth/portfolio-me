@@ -64,14 +64,14 @@ export default function Services() {
             <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.2] mix-blend-overlay z-10" />
             <div className="absolute top-1/4 right-1/4 w-[600px] h-[600px] bg-fuchsia-500/5 rounded-full blur-[150px] z-0" />
             
-            {/* The Avatar creatively pushed into the bottom right void */}
-            <div className="absolute bottom-[0vh] lg:bottom-[-5vh] right-[-10vw] lg:right-[-2vw] w-[140vw] sm:w-[90vw] lg:w-[60vw] h-[80vh] lg:h-[90vh] pointer-events-auto z-10 opacity-70 lg:opacity-100 mix-blend-screen transition-opacity duration-1000">
+            {/* The Avatar elegantly positioned in the bottom right corner */}
+            <div className="absolute bottom-10 right-0 lg:right-10 w-full lg:w-[50vw] h-[70vh] lg:h-[85vh] pointer-events-auto z-10 opacity-70 lg:opacity-100 mix-blend-screen transition-opacity duration-1000">
                <Avatar 
                   actionName={
                     activeService === null ? "Standing" :
                     activeService % 2 === 0 ? "Typing" : "Warrior"
                   } 
-                  scale={3.6} 
+                  scale={2.0} 
                />
                {/* HUD overlay for the avatar */}
                <div className="absolute bottom-[15%] left-[30%] pointer-events-none hidden lg:flex items-center gap-2">

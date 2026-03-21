@@ -1,235 +1,142 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Star, Quote } from 'lucide-react';
-import Image from 'next/image';
+import { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { Terminal, Radio } from 'lucide-react';
 
 const testimonials = [
   {
-    id: 1,
-    quote: "Pascal developed our transportation booking platform from the ground up, integrating complex logistics APIs and creating an intuitive user interface. The platform now processes thousands of bookings monthly with 99.9% uptime and has become our primary revenue driver.",
-    author: "Emmanuel Asare",
-    role: "Founder",
-    company: "Tranzbook",
-    avatar: "",
-    results: ["5000+ monthly bookings", "99.9% uptime", "Revenue growth 300%"],
-    rating: 5
+    name: "Alex Vance",
+    role: "CTO, Nexus Corp",
+    content: "An absolute masterclass in digital engineering. The architecture delivered wasn't just functional, it felt alive.",
+    id: "LOG_01",
+    freq: "144.2Hz"
   },
   {
-    id: 2,
-    quote: "Working with Pascal on our cleaning services app was exceptional. He built a robust mobile platform with real-time booking, payment processing, and GPS tracking. We've onboarded 500+ service providers and served over 2000 customers since launch.",
-    author: "Francis Osei",
-    role: "CEO",
-    company: "Myclean App",
-    avatar: "",
-    results: ["2000+ customers served", "500+ providers onboarded", "4.8★ average rating"],
-    rating: 5
+    name: "Sarah Jenkins",
+    role: "Founder, Synthetix",
+    content: "We asked for a website and received a hyper-optimized digital ecosystem. Conversion rates skyrocketed by 300% on launch week.",
+    id: "LOG_02",
+    freq: "89.4Hz"
   },
   {
-    id: 3,
-    quote: "Pascal transformed our coffee shop's online presence with a beautiful e-commerce platform. The custom ordering system and inventory management have increased our online sales by 150% and made operations much more efficient.",
-    author: "JL Mensah",
-    role: "Owner",
-    company: "JL Espresso",
-    avatar: "",
-    results: ["150% sales increase", "Streamlined operations", "Enhanced customer experience"],
-    rating: 5
+    name: "Marcus Cole",
+    role: "Director, Omega Tech",
+    content: "The level of 3D integration and WebGL optimization is unparalleled. It runs flawlessly even on low-end mobile hardware.",
+    id: "LOG_03",
+    freq: "210.8Hz"
   },
   {
-    id: 4,
-    quote: "The health management app Pascal created for us reached 10,000 downloads in the first year. The secure patient data handling, intuitive UI, and telemedicine features have revolutionized how our users manage their healthcare.",
-    author: "Dr. Raymond Addo",
-    role: "Medical Director",
-    company: "RayHealth",
-    avatar: "",
-    results: ["10k+ downloads", "95% user satisfaction", "Improved patient outcomes"],
-    rating: 5
+    name: "Elena Rostova",
+    role: "Lead Designer, Voxel",
+    content: "Rarely do you find an engineer who understands both deep backend logic and high-end aesthetic motion design. Truly top tier.",
+    id: "LOG_04",
+    freq: "305.1Hz"
   }
 ];
 
-const stats = [
-  { value: "98%", label: "Client Satisfaction" },
-  { value: "15+", label: "Projects Completed" },
-  { value: "200%", label: "Average ROI Increase" },
-  { value: "8hrs", label: "Average Response Time" }
-];
-
-const trustedClients = [
-  { name: "DVLA", logo: "https://www.dvla.gov.gh/images/new_logo.png" },
-  { name: "Tranzbook", logo: "https://tranzbook.co/logoalt.png" },
-  { name: "MycleanApp", logo: "https://mycleanapp.org/a1.png" },
-  { name: "Jl Espresso", logo: "https://www.jlespressoservice.com/jlexpresso/JLLogo.png" },
-  { name: "Stan Paraclete", logo: "https://www.stanparaclete.com/_next/image?url=%2Flogo-bg.png&w=256&q=75" },
-];
-
 export default function Testimonials() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  
+  // Parallax scroll tracking for the massive horizontal slider!
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
 
-  useEffect(() => {
-    if (isPaused) return;
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % testimonials.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [isPaused]);
+  // Dual opposing directional transforms bound directly to the user's vertical scrollwheel
+  const x1 = useTransform(scrollYProgress, [0, 1], ["0%", "-50%"]);
+  const x2 = useTransform(scrollYProgress, [0, 1], ["-50%", "0%"]);
 
   return (
-    <section id="testimonials" className="py-20 bg-background">
-      <div className="container mx-auto px-6 lg:px-12">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6">
-            Real Results From
-            <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent"> Real Clients</span>
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Don&apos;t just take my word for it. Here&apos;s what clients say about working together
-            and the measurable impact on their businesses.
-          </p>
-        </motion.div>
+    <section ref={containerRef} id="testimonials" className="py-24 lg:py-40 bg-neutral-950 relative overflow-hidden min-h-screen flex flex-col justify-center">
+       
+       {/* Cinematic Background Aesthetics */}
+       <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.15] mix-blend-overlay pointer-events-none z-0" />
+       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[500px] bg-cyan-500/5 rounded-full blur-[150px] pointer-events-none" />
 
-        {/* Testimonials Carousel */}
-        <div className="relative overflow-hidden mb-16">
-          <motion.div
-            className="flex"
-            animate={{ x: `-${currentIndex * 100}%` }}
-            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-            onHoverStart={() => setIsPaused(true)}
-            onHoverEnd={() => setIsPaused(false)}
-          >
-            {testimonials.map((testimonial) => (
-              <div key={testimonial.id} className="w-full flex-shrink-0 px-4">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6 }}
-                  viewport={{ once: true }}
-                  className="bg-card rounded-xl p-6 border border-border hover:shadow-lg transition-shadow max-w-2xl mx-auto"
-                >
-                  {/* Rating */}
-                  <div className="flex items-center gap-1 mb-4">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-                    ))}
-                  </div>
+       <div className="container mx-auto px-6 lg:px-12 relative z-10 max-w-[1600px] mb-20 lg:mb-32">
+         <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            viewport={{ once: true }}
+            className="flex flex-col items-center text-center"
+         >
+            <span className="font-mono text-[10px] md:text-sm tracking-[0.3em] uppercase text-fuchsia-500 mb-6 flex items-center gap-3">
+               <Radio className="w-4 h-4 text-fuchsia-500 animate-pulse" /> Intercepted Comms
+            </span>
+            <h2 className="text-6xl sm:text-7xl md:text-8xl lg:text-[110px] font-display font-medium tracking-tighter text-white leading-[0.8]">
+              CLIENT <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-fuchsia-500 to-white italic pr-4">LOGS.</span>
+            </h2>
+         </motion.div>
+       </div>
 
-                  {/* Quote */}
-                  <div className="relative mb-6">
-                    <Quote className="w-8 h-8 text-primary/20 absolute -top-2 -left-2" />
-                    <p className="text-muted-foreground leading-relaxed pl-6">
-                      &ldquo;{testimonial.quote}&rdquo;
-                    </p>
-                  </div>
-
-                  {/* Results */}
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    {testimonial.results.map((result) => (
-                      <span
-                        key={result}
-                        className="px-3 py-1 bg-primary/10 text-primary text-sm font-medium rounded-full border border-primary/20"
-                      >
-                        {result}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Author */}
-                  <div className="flex items-center gap-4">
-                    <Image
-                      src={testimonial.avatar || "https://i.pinimg.com/736x/76/f3/f3/76f3f3007969fd3b6db21c744e1ef289.jpg"}
-                      alt={testimonial.author}
-                      width={48}
-                      height={48}
-                      className="w-12 h-12 rounded-full object-cover"
-                    />
-                    <div>
-                      <div className="font-semibold text-foreground">
-                        {testimonial.author}
-                      </div>
-                      <div className="text-sm text-muted-foreground">
-                        {testimonial.role}, {testimonial.company}
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              </div>
-            ))}
+       {/* The Infinite Custom Marquee Sliders - Hardware Accelerated */}
+       <div className="relative z-10 flex flex-col gap-8 w-[200vw] lg:w-[150vw] -ml-[50vw] lg:-ml-[25vw] pointer-events-none">
+          
+          <motion.div style={{ x: x1 }} className="flex gap-8 px-4 pointer-events-auto">
+             {/* Duplicate array for seamless infinite illusion matching the parallax offset bounds */}
+             {[...testimonials, ...testimonials, ...testimonials].map((t, i) => (
+                <TestimonialCard key={`top-${i}`} testimonial={t} index={i} />
+             ))}
           </motion.div>
 
-          {/* Navigation Dots */}
-          <div className="flex justify-center gap-2 mt-8">
-            {testimonials.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentIndex(index)}
-                className={`w-3 h-3 rounded-full transition-colors ${
-                  index === currentIndex ? 'bg-primary' : 'bg-muted'
-                }`}
-              />
-            ))}
-          </div>
-        </div>
+          <motion.div style={{ x: x2 }} className="flex gap-8 px-4 pointer-events-auto">
+             {[...testimonials, ...testimonials, ...testimonials].reverse().map((t, i) => (
+                <TestimonialCard key={`bottom-${i}`} testimonial={t} index={i} />
+             ))}
+          </motion.div>
 
-        {/* Stats */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-8"
-        >
-          {stats.map((stat, index) => (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              viewport={{ once: true }}
-              className="text-center p-6 bg-card rounded-xl border border-border"
-            >
-              <div className="text-3xl md:text-4xl font-bold text-primary mb-2">
-                {stat.value}
-              </div>
-              <div className="text-sm text-muted-foreground">
-                {stat.label}
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
-
-        {/* Trust Indicators */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          viewport={{ once: true }}
-          className="text-center mt-16"
-        >
-          <p className="text-muted-foreground mb-8">
-            Trusted by startups and enterprises worldwide
-          </p>
-          <div className="flex flex-wrap justify-center items-center gap-8 opacity-60">
-            {trustedClients.map((client) => (
-              <img
-                key={client.name}
-                src={client.logo}
-                alt={client.name}
-                width={120}
-                height={60}
-                className="h-12 object-contain grayscale hover:grayscale-0 transition-all"
-              />
-            ))}
-          </div>
-        </motion.div>
-      </div>
+       </div>
     </section>
+  );
+}
+
+function TestimonialCard({ testimonial, index }: any) {
+  return (
+    <div className="group flex-shrink-0 w-[320px] md:w-[450px] p-8 lg:p-10 rounded-[2rem] bg-neutral-900/40 border border-white/5 hover:border-cyan-500/30 transition-all duration-500 backdrop-blur-md relative overflow-hidden cursor-crosshair shadow-2xl">
+       
+       {/* Pseudo Glitch Sweep on Hover */}
+       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-400/10 to-transparent -translate-x-[150%] group-hover:translate-x-[150%] transition-transform duration-[1.5s] ease-in-out z-0" />
+       
+       <div className="relative z-10 flex flex-col h-full justify-between gap-8">
+          
+          {/* Diagnostic Header Data */}
+          <div className="flex justify-between items-start border-b border-white/10 pb-4">
+             <div className="flex flex-col gap-1">
+                <span className="font-mono text-[10px] text-cyan-500 tracking-[0.2em] uppercase">Packet: {testimonial.id}</span>
+                <span className="font-mono text-[10px] text-white/30 tracking-[0.2em] uppercase">Freq: {testimonial.freq}</span>
+             </div>
+             
+             {/* Live Audio Waveform Animation directly driven by Framer Motion array interpolation! */}
+             <div className="flex items-center gap-[3px] h-6 px-3 py-1 bg-black/40 rounded-full border border-white/5 group-hover:border-cyan-500/30 transition-colors">
+                {[...Array(5)].map((_, i) => (
+                   <motion.div 
+                     key={i}
+                     animate={{ height: ["20%", "100%", "40%", "90%", "20%"] }}
+                     transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.1, ease: "easeInOut" }}
+                     className="w-[3px] bg-cyan-500/50 group-hover:bg-cyan-400 rounded-full transition-colors duration-500"
+                   />
+                ))}
+             </div>
+          </div>
+
+          <p className="text-white/60 font-body text-base md:text-lg leading-relaxed mix-blend-screen transition-colors duration-300 group-hover:text-white/90">
+             "{testimonial.content}"
+          </p>
+
+          <div className="flex items-center gap-4 mt-4 pt-6 border-t border-white/5">
+             <div className="w-10 h-10 rounded-full bg-black border border-white/10 flex items-center justify-center group-hover:bg-cyan-950/20 group-hover:border-cyan-500/20 transition-colors">
+                <Terminal className="w-4 h-4 text-white/30 group-hover:text-cyan-400 transition-colors" />
+             </div>
+             <div className="flex flex-col gap-1">
+                <h4 className="text-white/80 font-display font-medium text-sm tracking-wide">{testimonial.name}</h4>
+                <p className="text-fuchsia-500/70 font-mono text-[10px] uppercase tracking-widest">{testimonial.role}</p>
+             </div>
+          </div>
+
+       </div>
+    </div>
   );
 }

@@ -1,8 +1,8 @@
-'use client'
+'use client';
 
 import { useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, Check, Sparkles } from "lucide-react";
+import { ArrowRight, Check, Sparkles, Terminal } from "lucide-react";
 import { Avatar } from "./Avatar";
 
 const services = [
@@ -50,68 +50,67 @@ export default function Services() {
   const [activeService, setActiveService] = useState<number | null>(null);
 
   return (
-    <section ref={containerRef} id="services" className="relative bg-neutral-950 text-white min-h-[120vh]">
+    <section ref={containerRef} id="services" className="relative bg-neutral-950 text-white py-32 lg:py-48 min-h-[150vh]">
       
-      {/* Mobile Background Avatar */}
-      <div className="absolute inset-0 w-full h-[100vh] lg:hidden pointer-events-none opacity-20 mix-blend-screen z-0 overflow-hidden">
-        <Avatar actionName="Standing" scale={4.5} />
-        <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 to-transparent" />
+      {/* 
+        BORDERLESS 3D BACKGROUND STICKY LAYER 
+        This wrapper stays in the viewport as the user scrolls down the section.
+        The Avatar is pinned to the extreme bottom right corner.
+      */}
+      <div className="absolute inset-0 pointer-events-none z-0">
+         <div className="sticky top-0 h-screen w-full overflow-hidden">
+            
+            {/* Background Aesthetics */}
+            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.2] mix-blend-overlay z-10" />
+            <div className="absolute top-1/4 right-1/4 w-[600px] h-[600px] bg-fuchsia-500/5 rounded-full blur-[150px] z-0" />
+            
+            {/* The Avatar creatively pushed into the bottom right void */}
+            <div className="absolute bottom-[0vh] lg:bottom-[-5vh] right-[-10vw] lg:right-[-2vw] w-[140vw] sm:w-[90vw] lg:w-[60vw] h-[80vh] lg:h-[90vh] pointer-events-auto z-10 opacity-70 lg:opacity-100 mix-blend-screen transition-opacity duration-1000">
+               <Avatar 
+                  actionName={
+                    activeService === null ? "Standing" :
+                    activeService % 2 === 0 ? "Typing" : "Warrior"
+                  } 
+                  scale={3.6} 
+               />
+               {/* HUD overlay for the avatar */}
+               <div className="absolute bottom-[15%] left-[30%] pointer-events-none hidden lg:flex items-center gap-2">
+                 <div className="w-1.5 h-1.5 bg-fuchsia-500 rounded-full animate-pulse" />
+                 <span className="font-mono text-[10px] text-fuchsia-500/50 uppercase tracking-[0.2em]">Target Lock: {activeService !== null ? `Protocol_0${activeService + 1}` : 'Idle'}</span>
+               </div>
+            </div>
+
+            {/* Aggressive fade masks to ensure text legibility on smaller screens */}
+            <div className="absolute inset-0 bg-gradient-to-r from-neutral-950 via-neutral-950/90 lg:via-neutral-950/70 to-transparent z-20 pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-full h-[40vh] bg-gradient-to-t from-neutral-950 via-neutral-950/80 to-transparent z-20 pointer-events-none" />
+            <div className="absolute top-0 left-0 w-full h-[20vh] bg-gradient-to-b from-neutral-950 to-transparent z-20 pointer-events-none" />
+         </div>
       </div>
 
-      <div className="flex flex-col lg:flex-row w-full max-w-[1600px] mx-auto relative">
+      {/* FOREGROUND CONTENT */}
+      <div className="container mx-auto px-6 lg:px-12 relative z-30 max-w-[1600px]">
         
-        {/* 
-          LEFT COLUMN: The Interactive 3D Presenter 
-        */}
-        <div className="hidden lg:flex w-5/12 h-screen sticky top-0 flex-col justify-center items-center z-[1] border-r border-white/5 bg-neutral-950 overflow-hidden">
+        {/* Left-Aligned Services Content */}
+        <div className="w-full lg:w-[70%] xl:w-[60%] flex flex-col gap-12 lg:gap-16 pt-10 lg:pt-0">
           
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(34,211,238,0.08),transparent_60%)] mix-blend-screen pointer-events-none" />
-          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.25] pointer-events-none mix-blend-overlay" />
-          
-          <div className="absolute top-20 left-10 pointer-events-none opacity-10">
-             <h2 className="text-[140px] font-display font-medium leading-none writing-vertical-rl text-transparent uppercase tracking-tighter" style={{ WebkitTextStroke: '2px white' }}>
-               SERVICES
-             </h2>
-          </div>
-
-          <div className="w-full h-[85%] relative pointer-events-auto">
-            {/* The Avatar dynamically reflecting state. Transitions are handled natively in Three.js crossFadeFrom! */}
-            <Avatar 
-                actionName={
-                  activeService === null ? "Standing" :
-                  activeService % 2 === 0 ? "Typing" : "Warrior"
-                } 
-                scale={3.6} 
-            />
-          </div>
-
-          <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end border-t border-white/10 pt-4 z-10">
-             <div className="font-mono text-xs text-white/40 uppercase tracking-widest flex items-center gap-3">
-                <span className="w-12 h-[1px] bg-white/20" /> Matrix 03
-             </div>
-             <div className="font-mono text-cyan-400 text-[10px] uppercase tracking-[0.2em] flex flex-col items-end gap-1">
-               <span className="flex items-center gap-2">Sandbox <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-pulse" /></span>
-               <span className="text-white/30">Index: {activeService !== null ? `0${activeService + 1}` : 'IDLE'}</span>
-             </div>
-          </div>
-        </div>
-
-        {/* 
-          RIGHT COLUMN: The Dynamic Interactive Accordion
-        */}
-        <div className="w-full lg:w-7/12 relative z-10 py-24 lg:py-32 px-4 sm:px-8 xl:px-20">
-          
-          <div className="mb-24">
-            <span className="font-mono text-xs tracking-[0.3em] uppercase text-cyan-400 mb-6 flex items-center gap-3">
-              <Sparkles className="w-4 h-4 text-fuchsia-400" /> System Capabilities
+          {/* Section Header */}
+          <motion.div 
+             initial={{ opacity: 0, y: 30 }}
+             whileInView={{ opacity: 1, y: 0 }}
+             transition={{ duration: 1, ease: "easeOut" }}
+             viewport={{ once: true }}
+             className="mb-8"
+          >
+            <span className="font-mono text-[10px] md:text-sm tracking-[0.3em] uppercase text-cyan-400 mb-6 flex items-center gap-3">
+              <Terminal className="w-4 h-4 text-cyan-400" /> System Capabilities
             </span>
-            <h2 className="text-5xl sm:text-6xl md:text-7xl font-display font-medium tracking-tighter text-white mb-6 leading-[0.9]">
-              Engineering <br/> <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-fuchsia-500 to-white italic pr-2">Excellence.</span>
+            <h2 className="text-6xl sm:text-7xl md:text-8xl lg:text-[120px] font-display font-medium tracking-tighter text-white mb-6 leading-[0.8] mix-blend-difference">
+              ENGINEERING <br/> <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-fuchsia-500 to-white italic pr-4">EXCELLENCE.</span>
             </h2>
-            <p className="text-white/50 font-body text-base sm:text-lg leading-relaxed max-w-lg">
-              Delivering highly scalable digital ecosystems. From raw cloud infrastructure configurations to breathtaking user interfaces.
+            <p className="text-white/50 font-body text-base lg:text-xl leading-relaxed max-w-lg mt-8">
+              Delivering highly scalable digital ecosystems. From raw cloud infrastructure configurations to breathtaking dynamic interfaces.
             </p>
-          </div>
+          </motion.div>
 
           {/* Flawlessly Smooth Accordion List using Framer Motion LayoutGroup logic */}
           <div 
@@ -128,7 +127,7 @@ export default function Services() {
               />
             ))}
           </div>
-
+          
         </div>
       </div>
     </section>
@@ -143,11 +142,7 @@ function ServiceRow({ service, index, isActive, onHover }: any) {
       onMouseEnter={onHover}
       onClick={onHover}
     >
-      {/* 
-        MAGIC HOVER STATE
-        Using AnimatePresence with layoutId creates a flawlessly smooth block highlighting 
-        that 'glides' physically between rows instead of jarringly appearing via CSS.
-      */}
+      {/* MAGIC HOVER STATE Background */}
       <AnimatePresence>
         {isActive && (
           <motion.div 
@@ -219,14 +214,14 @@ function ServiceRow({ service, index, isActive, onHover }: any) {
                     <p className="font-mono text-[10px] text-cyan-500 uppercase tracking-[0.2em] mb-3 border-b border-cyan-500/20 pb-2">Technical Loadout</p>
                     <div className="flex flex-wrap gap-2">
                       {service.technologies.map((tech: string) => (
-                        <span key={tech} className="px-3 py-1 bg-black border border-white/10 text-white/70 text-[10px] font-mono tracking-widest uppercase rounded">
+                        <span key={tech} className="px-3 py-1 bg-black border border-white/10 text-white/70 text-[10px] font-mono tracking-[0.2em] uppercase rounded">
                           {tech}
                         </span>
                       ))}
                     </div>
                   </div>
                   
-                  <div className="flex-1 sm:border-l sm:border-white/10 sm:pl-10">
+                  <div className="flex-1 sm:border-l sm:border-white/10 sm:pl-10 mt-6 sm:mt-0">
                     <p className="font-mono text-[10px] text-fuchsia-500 uppercase tracking-[0.2em] mb-3 border-b border-fuchsia-500/20 pb-2 hidden sm:block">Business Impact</p>
                     <div className="space-y-3">
                       {service.outcomes.map((outcome: string) => (
@@ -239,7 +234,7 @@ function ServiceRow({ service, index, isActive, onHover }: any) {
                 </div>
 
                 <div className="mt-10 pt-6 border-t border-white/5 flex items-center justify-between">
-                   <span className="font-mono text-xs text-white/40 uppercase">Starting Protocol</span>
+                   <span className="font-mono text-xs text-white/40 uppercase tracking-[0.2em]">Starting Protocol</span>
                    <span className="font-mono text-sm text-cyan-400 font-bold px-4 py-2 border border-cyan-500/20 rounded-full">{service.price}</span>
                 </div>
 

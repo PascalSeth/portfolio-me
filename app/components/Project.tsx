@@ -122,7 +122,7 @@ export default function Project() {
         Cards are spaced out using gap-[60vh] so the user must scroll 60vh to see the next card stick.
         This provides a flawless native CSS scroll experience without overhanging containers.
       */}
-      <div className="relative w-full max-w-[1100px] mx-auto px-4 md:px-8 flex flex-col pt-[5vh]" style={{ gap: '60vh' }}>
+      <div className="relative w-full max-w-[1100px] mx-auto px-4 md:px-8 flex flex-col pt-[5svh]" style={{ gap: '60svh' }}>
         {projects.map((project, i) => {
           return (
             <Card 
@@ -141,7 +141,7 @@ export default function Project() {
           When the About section comes up, it encounters this blank gap first, pushing the sticky stack 
           perfectly up without ever overlapping the cards' text or visuals.
         */}
-        <div className="h-[25vh] w-full" />
+        <div className="h-[25svh] w-full" />
       </div>
 
     </section>
@@ -168,17 +168,18 @@ function Card({ project, index, total, progress }: any) {
     <div 
       ref={container} 
       className="sticky flex items-start justify-center w-full z-10"
-      // strictly fixing top to 15vh guarantees it never wildly drops off the screen
-      style={{ top: '15vh' }}
+      // strictly fixing top to 15svh guarantees it never wildly drops off the screen due to mobile address bar resize
+      style={{ top: '15svh' }}
     >
       <motion.div 
         style={{ 
           scale: cardScale,
           y: upwardYOffset,
+          willChange: "transform",
         }} 
-        // Force height to strictly 65vh so top (15vh) + height (65vh) = 80vh.
-        // The card ALWAYS leaves 20vh of blank scrolling room at the bottom of the monitor, preventing overlap.
-        className="w-full flex justify-center origin-top transform-gpu h-[65vh] min-h-[500px] max-h-[700px]"
+        // Force height to strictly 65svh so top (15svh) + height (65svh) = 80svh.
+        // The card ALWAYS leaves 20svh of blank scrolling room at the bottom of the monitor, preventing overlap.
+        className="w-full flex justify-center origin-top transform-gpu h-[65svh] min-h-[500px] max-h-[700px]"
       >
         <div className="relative flex flex-col md:flex-row w-full h-full bg-neutral-900 border border-white/10 rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-[0_-20px_60px_-15px_rgba(0,0,0,0.8)]">
           

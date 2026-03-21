@@ -3,6 +3,9 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import ToasterClient from "./components/ToasterClient";
+import SmoothScroll from "./components/SmoothScroll";
+import CustomCursor from "./components/CustomCursor";
+import Preloader from "./components/Preloader";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,11 +36,15 @@ export default function RootLayout({
         <link rel="icon" href="/avatar.jpg" />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased selection:bg-primary selection:text-primary-foreground`}
       >
-        <Navbar/>
-        {children}
-        <ToasterClient />
+        <Preloader />
+        <CustomCursor />
+        <SmoothScroll>
+          <Navbar/>
+          {children}
+          <ToasterClient />
+        </SmoothScroll>
       </body>
     </html>
   );

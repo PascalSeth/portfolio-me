@@ -1,8 +1,9 @@
 'use client';
 
 import { useRef } from "react";
-import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
+import { ArrowUpRight } from "lucide-react";
 
 interface Project {
   id: number;
@@ -17,314 +18,222 @@ interface Project {
 const projects: Project[] = [
   {
     id: 1,
-    title: "3D Interactive Portfolio",
-    description:
-      "Immersive 3D portfolio website with smooth animations and interactive elements. Features advanced Three.js integration with optimized performance and SEO.",
-    image: '/projects/3dportfolio.png',
-    technologies: ["Three.js", "React", "Next.js", "Framer Motion", "WebGL"],
-    liveUrl: "https://sethpascal.netlify.app",
-    category: "personal",
+    title: "JL Espresso",
+    description: "Premium coffee service platform offering espresso solutions, equipment maintenance, and training for businesses.",
+    image: '/projects/jlespresso.png',
+    technologies: ["Next.js", "Node.js", "MongoDB", "Stripe"],
+    liveUrl: "https://www.jlespressoservice.com/",
+    category: "real",
   },
   {
     id: 2,
-    title: "Bird Notion Clone",
-    description:
-      "Full-featured note-taking application with real-time collaboration, rich text editing, and cloud synchronization. Built with modern web technologies.",
-    image: '/projects/birdnotion.png',
-    technologies: ["Next.js", "Prisma", "PostgreSQL", "Socket.io", "Tailwind CSS"],
-    liveUrl: "https://bird-notion.netlify.app/",
-    category: "personal",
-  },
-  {
-    id: 3,
-    title: "CarHub - Car Rental Platform",
-    description:
-      "Comprehensive car rental marketplace with advanced search, booking system, and payment integration. Features real-time availability and user dashboards.",
-    image: '/projects/carhub.png',
-    technologies: ["Next.js", "TypeScript", "Stripe", "MongoDB", "Mapbox API"],
-    liveUrl: "https://pascalcarhub.netlify.app/",
-    category: "personal",
-  },
-  {
-    id: 4,
-    title: "Fresco - Art Gallery Platform",
-    description:
-      "Digital art gallery platform with NFT integration, artist portfolios, and marketplace functionality. Connects artists with collectors worldwide.",
-    image: '/projects/fresco.png',
-    technologies: ["React", "Node.js", "Web3", "IPFS", "Ethereum", "Tailwind CSS"],
-    liveUrl: "https://fresco-food.netlify.app/",
-    category: "personal",
-  },
-  {
-    id: 5,
-    title: "House of Bek - Fashion E-commerce",
-    description:
-      "Luxury fashion e-commerce platform with advanced product filtering, wishlist functionality, and seamless checkout experience.",
-    image: '/projects/houseofbek.png',
-    technologies: ["Shopify", "Liquid", "JavaScript", "SCSS", "Payment APIs"],
-    liveUrl: "https://houseofbek.netlify.app/",
-    category: "personal",
-  },
-  {
-    id: 6,
-    title: "MyClean - Cleaning Services",
-    description:
-      "Professional cleaning services booking platform with real-time scheduling, service customization, and automated invoicing system.",
+    title: "MyClean Services",
+    description: "Professional cleaning booking platform with real-time scheduling and automated invoicing system.",
     image: '/projects/myclean.png',
-    technologies: ["React", "Node.js", "MongoDB", "Stripe", "Calendar API"],
+    technologies: ["React", "Node.js", "MongoDB", "Stripe"],
     liveUrl: "https://mycleanapp.org/",
     category: "real",
   },
   {
-    id: 7,
-    title: "RayHealth - Healthcare Platform",
-    description:
-      "Comprehensive healthcare management system with patient portals, appointment scheduling, and telemedicine integration.",
+    id: 3,
+    title: "RayHealth",
+    description: "Healthcare management system with patient portals, scheduling, and telemedicine integration.",
     image: '/projects/rayhealth.png',
-    technologies: ["Next.js", "PostgreSQL", "Twilio", "HIPAA Compliance", "React"],
+    technologies: ["Next.js", "PostgreSQL", "Twilio", "React"],
     liveUrl: "https://rayhealthcareafrica.com/",
     category: "real",
   },
   {
-    id: 8,
-    title: "TranzBook - Transportation Booking",
-    description:
-      "Multi-modal transportation booking platform with real-time tracking, multi-currency payments, and integrated logistics management.",
+    id: 4,
+    title: "TranzBook",
+    description: "Transportation booking platform with real-time tracking and logistics management.",
     image: '/projects/tranzbook.png',
-    technologies: ["React", "Express.js", "MySQL", "Google Maps API", "Payment Gateway"],
+    technologies: ["React", "Express.js", "MySQL", "Google Maps API"],
     liveUrl: "https://tranzbook.co",
     category: "real",
   },
   {
+    id: 5,
+    title: "3D Portfolio",
+    description: "Immersive 3D portfolio website with smooth animations and interactive elements.",
+    image: '/projects/3dportfolio.png',
+    technologies: ["Three.js", "React", "Next.js", "Framer Motion"],
+    liveUrl: "https://sethpascal.netlify.app",
+    category: "personal",
+  },
+  {
+    id: 6,
+    title: "Bird Notion Clone",
+    description: "Full-featured note-taking application with real-time collaboration and rich text editing.",
+    image: '/projects/birdnotion.png',
+    technologies: ["Next.js", "Prisma", "PostgreSQL", "Socket.io"],
+    liveUrl: "https://bird-notion.netlify.app/",
+    category: "personal",
+  },
+  {
+    id: 7,
+    title: "CarHub Platform",
+    description: "Car rental marketplace with advanced search, booking system, and payment integration.",
+    image: '/projects/carhub.png',
+    technologies: ["Next.js", "TypeScript", "Stripe", "MongoDB"],
+    liveUrl: "https://pascalcarhub.netlify.app/",
+    category: "personal",
+  },
+  {
+    id: 8,
+    title: "Fresco Art Gallery",
+    description: "Digital art gallery platform with NFT integration, artist portfolios, and marketplace.",
+    image: '/projects/fresco.png',
+    technologies: ["React", "Node.js", "Web3", "Ethereum"],
+    liveUrl: "https://fresco-food.netlify.app/",
+    category: "personal",
+  },
+  {
     id: 9,
-    title: "Jl Espresso - Coffee Service",
-    description:
-      "Professional coffee service platform offering premium espresso solutions, equipment maintenance, and training for businesses and events.",
-    image: '/projects/jlespresso.png',
-    technologies: ["Next.js", "Node.js", "MongoDB", "Stripe", "Booking System"],
-    liveUrl: "https://www.jlespressoservice.com/",
-    category: "real",
+    title: "House of Bek",
+    description: "Luxury fashion e-commerce platform with advanced product filtering and wishlist.",
+    image: '/projects/houseofbek.png',
+    technologies: ["Shopify", "Liquid", "JavaScript", "SCSS"],
+    liveUrl: "https://houseofbek.netlify.app/",
+    category: "personal",
   },
 ];
 
-
 export default function Project() {
-  const realProjects = projects.filter(p => p.category === 'real');
-  const personalProjects = projects.filter(p => p.category === 'personal');
-
-  return (
-    <div id="projects">
-      {/* Real Projects Section */}
-      <ProjectSection title="Real Projects" description="Professional projects I've developed for clients and businesses." projects={realProjects} />
-
-      {/* Personal Projects Section */}
-      <ProjectSection title="Personal Projects" description="Personal projects and experiments I've built for learning and fun." projects={personalProjects} />
-    </div>
-  );
-}
-
-function ProjectSection({ title, description, projects }: { title: string; description: string; projects: Project[] }) {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const container = useRef(null);
+  
+  // Track scroll over the entire wrapper to synchronize the 3D shrink and upward offset
   const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"],
+    target: container,
+    offset: ["start start", "end end"]
   });
 
-  const totalProjects = projects.length;
-
-  const headerOpacity = useTransform(scrollYProgress, [0, 0.05], [1, 0]);
-  const headerHeight = useTransform(scrollYProgress, [0, 0.05], [200, 0]);
-
-  if (totalProjects === 0) return null;
-
   return (
-    <section ref={containerRef} className="relative" style={{ height: `${totalProjects * 100}vh` }}>
-      {/* Sticky Container */}
-      <div className="sticky top-0 h-screen bg-background overflow-hidden flex flex-col">
-        {/* Header */}
-        <motion.div
-          className="flex-shrink-0 text-center bg-gradient-to-b from-background via-background to-transparent overflow-hidden"
-        >
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent mb-3"
-          >
-            {title}
-          </motion.h2>
-          <motion.p           style={{ opacity: headerOpacity, height: headerHeight }}
-  className="text-muted-foreground text-lg max-w-2xl mx-auto px-6">
-            {description}
-          </motion.p>
-        </motion.div>
+    <section ref={container} id="projects" className="bg-neutral-950 py-24 relative z-10 w-full">
+      
+      <div className="container mx-auto px-4 md:px-8 max-w-6xl mb-12 text-center sticky top-10 md:top-20 z-50 pointer-events-none">
+        <h2 className="text-4xl md:text-7xl font-display font-medium tracking-tighter text-white drop-shadow-2xl">
+          Selected <span className="text-primary italic font-serif">Works.</span>
+        </h2>
+      </div>
 
-        {/* Projects */}
-        <div className="flex-1 relative">
-          {projects.map((project, index) => {
-            return (
-              <ProjectSlideWrapper
-                key={project.id}
-                project={project}
-                index={index}
-                totalProjects={totalProjects}
-                scrollYProgress={scrollYProgress}
-              />
-            );
-          })}
-        </div>
-
-        {/* Progress Indicators */}
-        <div className="absolute right-6 top-1/2 -translate-y-1/2 flex flex-col gap-3 z-20">
-          {projects.map((_, index) => (
-            <ProgressDot
-              key={index}
-              index={index}
-              totalProjects={totalProjects}
-              scrollYProgress={scrollYProgress}
+      {/* 
+        This is the physical scrolling lane.
+        Cards are spaced out using gap-[60vh] so the user must scroll 60vh to see the next card stick.
+        This provides a flawless native CSS scroll experience without overhanging containers.
+      */}
+      <div className="relative w-full max-w-[1100px] mx-auto px-4 md:px-8 flex flex-col pt-[5vh]" style={{ gap: '60vh' }}>
+        {projects.map((project, i) => {
+          return (
+            <Card 
+              key={project.id} 
+              project={project} 
+              index={i} 
+              total={projects.length} 
+              progress={scrollYProgress} 
             />
-          ))}
-        </div>
+          )
+        })}
+
+        {/* 
+          CRITICAL FIX: A 25vh spacer at the bottom of the section.
+          This ensures the last card has plenty of room to rest and fully complete its transition.
+          When the About section comes up, it encounters this blank gap first, pushing the sticky stack 
+          perfectly up without ever overlapping the cards' text or visuals.
+        */}
+        <div className="h-[25vh] w-full" />
       </div>
+
     </section>
-  );
+  )
 }
 
-function ProjectSlideWrapper({
-  project,
-  index,
-  totalProjects,
-  scrollYProgress,
-}: {
-  project: Project;
-  index: number;
-  totalProjects: number;
-  scrollYProgress: ReturnType<typeof useScroll>["scrollYProgress"];
-}) {
-  const progress = useTransform(
-    scrollYProgress,
-    [(index - 0.5) / totalProjects, index / totalProjects, (index + 0.5) / totalProjects],
-    [0, 0.5, 1]
-  );
-  const zIndex = useTransform(progress, [0, 0.5, 1], [0, 10, 0]);
-  const isLast = index === totalProjects - 1;
+function Card({ project, index, total, progress }: any) {
+  const container = useRef<HTMLDivElement>(null);
+  
+  // As this card gets pushed deeper into the stack by new cards, scale it down slightly
+  const targetScale = 1 - ((total - index) * 0.04);
+  const cardScale = useTransform(progress, [index / total, 1], [1, targetScale]);
+  
+  // Stacking UPWARDS mechanics to prevent bottom-falling
+  const cardsPiledOnTop = total - index - 1; 
+  const targetY = -(cardsPiledOnTop * 35); // 35px upwards thrust per overlaying card
+  const upwardYOffset = useTransform(progress, [index / total, 1], [0, targetY]);
+
+  // Darken older cards organically
+  const targetDarken = ((total - index - 1) * 0.15);
+  const cardOverlayOpacity = useTransform(progress, [index / total, 1], [0, targetDarken]);
 
   return (
-    <motion.div style={{ position: "absolute", inset: 0, zIndex }}>
-      <ProjectSlideInner project={project} progressValue={progress} isLast={isLast} />
-    </motion.div>
-  );
-}
-
-function ProjectSlideInner({
-  project,
-  progressValue,
-  isLast = false,
-}: {
-  project: Project;
-  progressValue: MotionValue<number>;
-  isLast?: boolean;
-}) {
-  const opacity = useTransform(progressValue, [0, 0.3, 0.5, 0.7, 1], [0, 1, 1, 1, isLast ? 1 : 0]);
-  const x = useTransform(progressValue, [0, 0.5, 1], isLast ? [300, 0, 0] : [300, 0, -300]);
-  const scale = useTransform(progressValue, [0, 0.5, 1], isLast ? [0.95, 1, 1] : [0.95, 1, 0.95]);
-  const pointerEvents = "auto";
-
-  return (
-    <motion.div
-      className="absolute inset-0 flex items-center justify-center px-6"
-      style={{ opacity, x, scale, pointerEvents }}
+    <div 
+      ref={container} 
+      className="sticky flex items-start justify-center w-full z-10"
+      // strictly fixing top to 15vh guarantees it never wildly drops off the screen
+      style={{ top: '15vh' }}
     >
-      <div className="max-w-4xl w-full flex flex-col items-center space-y-3">
-        {/* Image with Overlay */}
-        <div className="relative w-full max-w-2xl overflow-hidden rounded-2xl shadow-2xl">
-          {project.liveUrl ? (
-            <a
-              href={project.liveUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block relative"
-            >
-              <Image
-                src={project.image}
-                alt={project.title}
-                width={600}
-                height={400}
-                className="w-full h-64 md:h-80 lg:h-96 object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-              {/* Technologies Overlay */}
-              <div className="absolute bottom-4 left-4 right-4 flex flex-wrap gap-2">
-                {project.technologies.map((tech) => (
-                  <span
-                    key={tech}
-                    className="px-3 py-1 text-xs font-medium rounded-full bg-white/20 text-white border border-white/30 backdrop-blur-sm"
-                  >
-                    {tech}
-                  </span>
-                ))}
+      <motion.div 
+        style={{ 
+          scale: cardScale,
+          y: upwardYOffset,
+        }} 
+        // Force height to strictly 65vh so top (15vh) + height (65vh) = 80vh.
+        // The card ALWAYS leaves 20vh of blank scrolling room at the bottom of the monitor, preventing overlap.
+        className="w-full flex justify-center origin-top transform-gpu h-[65vh] min-h-[500px] max-h-[700px]"
+      >
+        <div className="relative flex flex-col md:flex-row w-full h-full bg-neutral-900 border border-white/10 rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-[0_-20px_60px_-15px_rgba(0,0,0,0.8)]">
+          
+          {/* Depth Darkening Overlay */}
+          <motion.div 
+             className="absolute inset-0 bg-black z-50 pointer-events-none rounded-[3rem]"
+             style={{ opacity: cardOverlayOpacity }}
+          />
+
+          {/* Content Area */}
+          <div className="w-full md:w-1/2 p-6 md:p-12 flex flex-col justify-between h-full z-10 relative bg-neutral-900">
+            <div>
+              <div className="flex items-center gap-3 mb-4 md:mb-6">
+                <span className={`w-2 h-2 md:w-2.5 md:h-2.5 rounded-full ${project.category === 'real' ? 'bg-primary' : 'bg-purple-500'} shadow-[0_0_10px_currentColor] animate-pulse`} />
+                <span className="text-white/60 font-mono text-[10px] md:text-xs uppercase tracking-widest">{project.category} Project</span>
               </div>
-            </a>
-          ) : (
-            <div className="relative">
-              <Image
-                src={project.image}
-                alt={project.title}
-                width={600}
-                height={400}
-                className="w-full h-64 md:h-80 lg:h-96 object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-              {/* Technologies Overlay */}
-              <div className="absolute bottom-4 left-4 right-4 flex flex-wrap gap-2">
-                {project.technologies.map((tech) => (
-                  <span
-                    key={tech}
-                    className="px-3 py-1 text-xs font-medium rounded-full bg-white/20 text-white border border-white/30 backdrop-blur-sm"
-                  >
-                    {tech}
-                  </span>
-                ))}
-              </div>
+              
+              <h3 className="text-3xl md:text-4xl lg:text-6xl font-display font-medium text-white mb-4 md:mb-6 leading-tight tracking-tight">
+                {project.title}
+              </h3>
+              
+              <p className="text-gray-400 text-sm md:text-base leading-relaxed mb-6 md:mb-8 line-clamp-2 md:line-clamp-none">
+                {project.description}
+              </p>
+              
+              <div className="flex flex-wrap gap-2">
+                 {project.technologies.slice(0,4).map((tech: string) => (
+                   <span key={tech} className="px-3 py-1.5 border border-white/10 text-white/80 text-[10px] md:text-xs font-mono uppercase tracking-wider rounded-full bg-white/5">
+                     {tech}
+                   </span>
+                 ))}
+             </div>
             </div>
-          )}
+            
+            <a href={project.liveUrl} target="_blank" rel="noreferrer" className="group w-max flex items-center justify-center gap-3 px-6 md:px-8 py-3 md:py-4 bg-white text-black font-semibold text-xs md:text-sm rounded-full hover:bg-primary hover:text-white transition-all transform hover:scale-105 shadow-xl mt-4 md:mt-6">
+               View Experience <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+            </a>
+          </div>
+
+          {/* Image Area */}
+          <div className="relative w-full md:w-1/2 h-[45%] md:h-full bg-black p-4 md:p-8 flex items-center justify-center border-t md:border-l md:border-t-0 border-white/5">
+             <div className="relative w-full h-full rounded-xl md:rounded-2xl overflow-hidden border border-white/10 bg-neutral-950 shadow-2xl">
+               <Image 
+                 src={project.image} 
+                 alt={project.title}
+                 fill
+                 className="object-contain object-bottom md:object-cover md:object-top transition-transform duration-1000 md:group-hover:scale-105"
+                 quality={100}
+               />
+               <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent pointer-events-none" />
+             </div>
+          </div>
+
         </div>
-
-        {/* Title */}
-        <div className="text-center">
-          <h3 className="text-2xl md:text-2xl lg:text-2xl font-bold text-foreground">
-            {project.title}
-          </h3>
-        </div>
-      </div>
-    </motion.div>
-  );
-}
-
-function ProgressDot({
-  index,
-  totalProjects,
-  scrollYProgress,
-}: {
-  index: number;
-  totalProjects: number;
-  scrollYProgress: ReturnType<typeof useScroll>["scrollYProgress"];
-}) {
-  const scale = useTransform(
-    scrollYProgress,
-    [index / totalProjects, (index + 0.5) / totalProjects, (index + 1) / totalProjects],
-    [1, 1.5, 1]
-  );
-
-  const bgOpacity = useTransform(
-    scrollYProgress,
-    [index / totalProjects, (index + 0.5) / totalProjects, (index + 1) / totalProjects],
-    [0.3, 1, 0.3]
-  );
-
-  return (
-    <motion.div
-      className="w-3 h-3 rounded-full bg-primary cursor-pointer"
-      style={{ scale, opacity: bgOpacity }}
-    />
-  );
+      </motion.div>
+    </div>
+  )
 }

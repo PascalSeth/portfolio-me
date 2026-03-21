@@ -1,107 +1,92 @@
-import { ArrowRight, ChevronDown } from "lucide-react";
-import Image from "next/image";
+'use client';
 
-const FloatingBadge = ({ 
-  children, 
-  variant = "teal",
-  className = ""
-}: { 
-  children: React.ReactNode; 
-  variant?: "teal" | "purple";
-  className?: string;
-}) => (
-  <div 
-    className={`px-6 py-3 rounded-full font-medium text-sm tracking-wide cursor-pointer transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:-translate-y-1 hover:scale-105 ${
-      variant === "teal" 
-        ? "bg-primary text-primary-foreground" 
-        : "bg-secondary text-secondary-foreground"
-    } ${className}`}
-  >
-    {children}
-  </div>
-);
+import React, { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { ArrowDownRight, Zap } from "lucide-react";
+import { AvatarScene } from "./Avatar";
+import Magnetic from "./Magnetic";
 
-function Hero() {
+export default function Hero() {
+  const container = useRef(null);
+  
+  const { scrollYProgress } = useScroll({ target: container, offset: ["start start", "end start"] });
+  const textY = useTransform(scrollYProgress, [0, 1], [0, 150]);
+  const textOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+
   return (
-    <section id="hero" className="relative min-h-screen bg-background overflow-hidden">
-      {/* Main content container */}
-      <div className=" mx-auto px-6 lg:px-12 min-h-screen flex ">
-        <div className="grid grid-cols-1 lg:grid-cols-2  items-center w-full py-6">
-          
-          {/* Left side - Image and badges */}
-          <div className="relative flex justify-center lg:justify-start order-2 lg:order-1">
-            {/* Portrait image */}
-            <div className="relative">
-              <Image
-                src='/avatar.jpg'
-                alt="Professional portrait"
-                width={450}
-                height={600}
-                className="w-80 md:w-96 lg:w-[450px] h-auto object-cover rounded-lg"
-              />
-              
-              {/* Floating badges around the image */}
-              <div className="absolute -left-4 md:-left-8 top-1/4 animate-[float_4s_ease-in-out_infinite]">
-                <FloatingBadge variant="purple">
-                  Full-Stack
-                </FloatingBadge>
-              </div>
-              
-              <div className="absolute -right-4 md:-right-12 bottom-1/3 animate-[float_4s_ease-in-out_infinite_1s]">
-                <FloatingBadge variant="teal">
-                  Senior Developer
-                </FloatingBadge>
-              </div>
+    <section 
+      ref={container} 
+      className="relative min-h-[900px] h-auto lg:h-screen w-full flex flex-col lg:flex-row items-center justify-between overflow-hidden bg-neutral-950 font-sans pt-24 lg:pt-0"
+    >
+      {/* Cinematic Noise Overlay */}
+      <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.25] pointer-events-none mix-blend-overlay z-0" />
 
-              <div className="absolute -right-4 md:-right-12 top-1 animate-[float_4s_ease-in-out_infinite_2s]">
-                <FloatingBadge variant="purple">
-                  Digital Marketer
-                </FloatingBadge>
-              </div>
-            </div>
-            
-            {/* Name with arrow */}
-            <div className="absolute -bottom-4 text-gray-300 left-0 lg:left-0">
-              <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-semibold  tracking-tight flex items-end gap-4">
-                <span>Pascal</span>
-              </h1>
-              <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-semibold  tracking-tight flex items-center gap-4">
-                <span>Seth</span>
-                <ArrowRight className="w-10 h-10 md:w-14 md:h-14  mt-2" strokeWidth={1.5} />
-              </h1>
-            </div>
-          </div>
-          
-          {/* Right side - Text content */}
-          <div className="order-1 lg:order-2 lg:pl-8">
-            <div className="space-y-6">
-              <p className="text-muted-foreground text-sm tracking-widest uppercase font-body">
-                / This is me
-              </p>
-              
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-semibold text-foreground leading-tight">
-                Senior Software Developer & Digital Marketing Expert
-              </h2>
-              
-              <p className="text-muted-foreground font-body text-base md:text-lg max-w-md leading-relaxed">
-                With over 5 years of hands-on experience, I design and build high-performance digital products while driving growth through strategic marketing. From custom software to conversion-optimized campaigns, I deliver measurable results that scale your business.
-              </p>
+      {/* 
+        LEFT COLUMN (Text Layout)
+        Positioned cleanly and absolutely insulated from the 3D clipping space
+      */}
+      <motion.div 
+         style={{ y: textY, opacity: textOpacity }} 
+         className="relative z-20 w-full lg:w-5/12 flex flex-col items-center lg:items-start px-6 lg:pl-16 xl:pl-24 text-center lg:text-left mt-10 lg:mt-0"
+      >
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
+          className="mb-8"
+        >
+          <span className="font-mono text-[10px] md:text-sm tracking-[0.4em] uppercase border border-cyan-500/20 bg-cyan-950/20 px-6 py-2 rounded-full flex items-center justify-center lg:justify-start gap-2 shadow-[0_0_30px_rgba(34,211,238,0.15)]">
+            <Zap className="w-4 h-4 text-cyan-400" />
+            Multiverse Engine
+          </span>
+        </motion.div>
 
-              <p className="text-muted-foreground font-body text-base md:text-lg max-w-md leading-relaxed">
-                I specialize in turning complex requirements into clean, intuitive, and scalable solutions — on time and within budget. From startup MVPs to enterprise-grade platforms, I deliver work that looks stunning and performs flawlessly.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 right-8 flex items-center gap-2 text-muted-foreground text-sm tracking-widest uppercase animate-[bounce-subtle_2s_ease-in-out_infinite]">
-        <span className="text-xs tracking-wider">scroll for more</span>
-        <ChevronDown className="w-4 h-4" />
-      </div>
+        <motion.h1 
+           initial={{ y: 50, opacity: 0 }}
+           animate={{ y: 0, opacity: 1 }}
+           transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+           className="text-[14vw] sm:text-[10vw] lg:text-[7vw] xl:text-[110px] leading-[0.8] font-display font-medium tracking-tighter text-white mb-6"
+        >
+          PASCAL <br />
+          <span className="text-transparent bg-clip-text bg-gradient-to-br from-cyan-400 via-fuchsia-500 to-purple-600 italic pr-4 pb-2">SETH.</span>
+        </motion.h1>
+
+        <motion.p 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.6, ease: "easeOut" }}
+          className="text-gray-400 text-sm md:text-base font-body leading-relaxed max-w-sm lg:max-w-md mx-auto lg:mx-0 mb-10"
+        >
+          I architect immersive digital ecosystems. A nexus where high-performance engineering converges with breathtaking cybernetic aesthetics.
+        </motion.p>
+        
+        <motion.div 
+           initial={{ opacity: 0 }}
+           animate={{ opacity: 1 }}
+           transition={{ duration: 1, delay: 0.8 }}
+           className="pointer-events-auto flex items-center gap-6"
+        >
+          <Magnetic>
+            <a href="#projects" className="group rounded-full bg-cyan-500 text-black px-8 py-3 font-mono text-xs font-bold uppercase tracking-widest hover:bg-white transition-colors flex items-center gap-3">
+              Initialize Target <ArrowDownRight className="w-4 h-4 group-hover:translate-x-1 group-hover:translate-y-1 transition-transform" />
+            </a>
+          </Magnetic>
+        </motion.div>
+      </motion.div>
+
+      {/* 
+        RIGHT COLUMN (Immersive 3D Space)
+        No boxes! A single borderless Canvas containing the characters standing natively in the environment.
+      */}
+      <motion.div 
+         initial={{ opacity: 0 }}
+         animate={{ opacity: 1 }}
+         transition={{ duration: 2, delay: 0.5 }}
+         className="relative z-10 w-full lg:absolute lg:right-0 lg:top-0 lg:w-[65%] h-[60vh] lg:h-full mt-12 lg:mt-0"
+      >
+        <AvatarScene />
+      </motion.div>
+
     </section>
   );
 }
-
-export default Hero;

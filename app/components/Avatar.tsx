@@ -31,7 +31,7 @@ export function Avatar({ actionName = "Typing", scale = 2.0 }: { actionName?: Ac
           {showShadows && <ContactShadows position={[0, -2.6, 0]} opacity={0.6} scale={10} blur={2.5} far={4} color="#22d3ee" />}
         </Suspense>
 
-        <OrbitControls enableZoom={false} enablePan={false} enableRotate={true} autoRotate={false} maxPolarAngle={Math.PI / 2 + 0.2} minPolarAngle={Math.PI / 2 - 0.2} />
+        <OrbitControls enableZoom={false} enablePan={false} enableRotate={true} autoRotate={false} maxPolarAngle={Math.PI / 2} minPolarAngle={Math.PI / 2} />
       </Canvas>
     </div>
   );
@@ -54,7 +54,7 @@ export function AvatarScene() {
           <ContactShadows position={[0, -3.2, 0]} opacity={0.7} scale={15} blur={2.5} far={4} color="#000" />
         </Suspense>
 
-        <OrbitControls enableZoom={false} enablePan={false} enableRotate={true} autoRotate={false} maxPolarAngle={Math.PI / 2 + 0.1} minPolarAngle={Math.PI / 2 - 0.2} />
+        <OrbitControls enableZoom={false} enablePan={false} enableRotate={true} autoRotate={false} maxPolarAngle={Math.PI / 2} minPolarAngle={Math.PI / 2} />
       </Canvas>
     </div>
   );

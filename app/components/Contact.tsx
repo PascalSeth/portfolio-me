@@ -37,7 +37,7 @@ export default function Contact() {
 
             {/* The 3D Canvas spanning the right side natively */}
             <div className="absolute top-0 right-0 w-full lg:w-[65%] h-full pointer-events-auto z-10">
-               <Avatar actionName="Standing" scale={2.2} />
+               <Avatar actionName="Warrior" scale={2.2} />
             </div>
 
             {/* 

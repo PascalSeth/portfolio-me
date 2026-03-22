@@ -1,10 +1,10 @@
 'use client';
-
 import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowDownRight, Zap } from "lucide-react";
 import { AvatarScene } from "./Avatar";
 import Magnetic from "./Magnetic";
+
 
 export default function Hero() {
   const container = useRef(null);
@@ -16,10 +16,10 @@ export default function Hero() {
   return (
     <section 
       ref={container} 
-      className="relative min-h-[900px] h-auto lg:h-screen w-full flex flex-col lg:flex-row items-center justify-between overflow-hidden bg-neutral-950 font-sans pt-24 lg:pt-0"
+      className="relative min-h-[900px] h-auto lg:h-screen w-full flex flex-col lg:flex-row items-center justify-between overflow-hidden bg-transparent font-sans pt-24 lg:pt-0"
     >
-      {/* Cinematic Noise Overlay */}
-      <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.25] pointer-events-none mix-blend-overlay z-0" />
+
+
 
       {/* 
         LEFT COLUMN (Text Layout)
@@ -37,7 +37,7 @@ export default function Hero() {
         >
           <span className="font-mono text-[10px] md:text-sm tracking-[0.4em] uppercase border border-cyan-500/20 bg-cyan-950/20 px-6 py-2 rounded-full flex items-center justify-center lg:justify-start gap-2 shadow-[0_0_30px_rgba(34,211,238,0.15)]">
             <Zap className="w-4 h-4 text-cyan-400" />
-            Creative Engineer
+            Digital Growth Architect
           </span>
         </motion.div>
 
@@ -57,7 +57,7 @@ export default function Hero() {
           transition={{ duration: 1, delay: 0.6, ease: "easeOut" }}
           className="text-gray-400 text-sm md:text-base font-body leading-relaxed max-w-sm lg:max-w-md mx-auto lg:mx-0 mb-10"
         >
-          I build immersive digital experiences. A place where high-performance engineering meets beautiful, modern design.
+          I engineer high-performance digital ecosystems that accelerate business growth, drastically optimize conversion rates, and deliver premium user experiences.
         </motion.p>
         
         <motion.div 
@@ -68,7 +68,7 @@ export default function Hero() {
         >
           <Magnetic>
             <a href="#projects" className="group rounded-full bg-cyan-500 text-black px-8 py-3 font-mono text-xs font-bold uppercase tracking-widest hover:bg-white transition-colors flex items-center gap-3">
-              Explore Projects <ArrowDownRight className="w-4 h-4 group-hover:translate-x-1 group-hover:translate-y-1 transition-transform" />
+              Explore Case Studies <ArrowDownRight className="w-4 h-4 group-hover:translate-x-1 group-hover:translate-y-1 transition-transform" />
             </a>
           </Magnetic>
         </motion.div>

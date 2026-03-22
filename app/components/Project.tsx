@@ -2,9 +2,10 @@
 
 import { useRef, useState } from "react";
 import { flushSync } from 'react-dom';
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { ArrowUpRight, Terminal } from "lucide-react";
+
 
 interface Project {
   id: number;
@@ -123,18 +124,15 @@ export default function Project() {
   const [visibleCount, setVisibleCount] = useState(5);
   const visibleProjects = projects.slice(0, visibleCount);
 
-  // Track scroll over the entire wrapper to synchronize the 3D shrink and upward offset
-  const { scrollYProgress } = useScroll({
-    target: container,
-    offset: ["start start", "end end"]
-  });
-
   return (
-    <section ref={container} id="projects" className="bg-neutral-950 py-24 relative z-10 w-full">
+    <section ref={container} id="projects" className="bg-transparent py-24 relative z-10 w-full overflow-hidden">
+      
 
-      <div className="container mx-auto px-4 md:px-8 max-w-6xl mb-12 text-center sticky top-10 md:top-20 z-50 pointer-events-none">
-        <h2 className="text-4xl md:text-7xl font-display font-medium tracking-tighter text-white drop-shadow-2xl">
-          Selected <span className="text-primary italic font-serif">Works.</span>
+
+
+      <div className="container mx-auto px-4 md:px-8 max-w-6xl mb-12 text-center relative z-20">
+        <h2 className="text-4xl md:text-7xl font-display font-medium tracking-tighter text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.8)]">
+          Proven <span className="text-cyan-400 italic font-serif">Case Studies.</span>
         </h2>
       </div>
 
@@ -211,8 +209,6 @@ function Card({ project, index }: any) {
   const tracker = useRef<HTMLDivElement>(null);
 
   // Independent scroll tracking using a fixed-height invisible anchor.
-  // This completely decouples the card's animation from the container's dynamic array length!
-  // It fixes the "Show More" jump since previously-loaded trackers don't change height.
   const { scrollYProgress } = useScroll({
     target: tracker,
     offset: ["start 15vh", "end 15vh"]
@@ -224,82 +220,111 @@ function Card({ project, index }: any) {
   const cardOverlayOpacity = useTransform(scrollYProgress, [0, 1], [0, 0.5]);
 
   return (
-    <>
-      {/* Absolute tracker physically pinned perfectly parallel with where this card inherently lives in the DOM. */}
-      {/* top calculation: parent pt is 5svh, each card takes 75svh + 50svh gap = 125svh step-size! */}
-      <div
-        ref={tracker}
-        className="absolute left-0 w-px h-[250svh] pointer-events-none"
-        style={{ top: `calc(5svh + ${index * 125}svh)` }}
+    <div className="relative w-full group cursor-crosshair">
+      <div 
+         ref={tracker} 
+         className="absolute left-0 top-0 w-px h-[250svh] pointer-events-none"
       />
-      <div
-        className="sticky flex items-start justify-center w-full z-10"
-        // strictly fixing top to 15svh guarantees it never wildly drops off the screen due to mobile address bar resize
-        style={{ top: '15svh' }}
+      
+      {/* strictly fixing top to 15svh guarantees it never wildly drops off the screen due to mobile address bar resize */}
+      <div 
+        className="sticky flex items-start justify-center w-full z-10 top-[15svh]"
       >
         <motion.div
-          style={{
-            scale: cardScale,
-            y: upwardYOffset,
-            willChange: "transform",
-          }}
-          className="w-full flex justify-center origin-top transform-gpu h-[75svh] lg:h-[70svh] min-h-[500px] max-h-[750px]"
+           style={{
+             scale: cardScale,
+             y: upwardYOffset,
+             willChange: "transform",
+           }}
+           className="w-full flex justify-center origin-top transform-gpu h-[75svh] lg:h-[70svh] min-h-[500px] max-h-[750px]"
         >
-          <div className="relative flex flex-col md:flex-row w-full h-full bg-neutral-900 border border-white/10 rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-[0_-20px_60px_-15px_rgba(0,0,0,0.8)]">
+          {/* THE NEW CINEMATIC DATA SLATE DESIGN */}
+          <div className="relative flex flex-col w-full h-full bg-black border border-white/5 overflow-hidden shadow-[0_0_50px_rgba(34,211,238,0.05)] transition-colors duration-500 group-hover:border-cyan-500/30">
+            
+            {/* Background Image Native Bleed */}
+            <div className="absolute inset-0 z-0 bg-black">
+               <Image 
+                 src={project.image}
+                 alt={project.title}
+                 fill
+                 className="object-cover object-left md:object-center opacity-60 md:opacity-[0.85] transition-transform duration-[3s] ease-out group-hover:scale-105 mix-blend-luminosity group-hover:mix-blend-normal"
+                 quality={80}
+               />
+            </div>
 
-            {/* Depth Darkening Overlay */}
+            {/* Flat darkening mask to guarantee constant legibility anywhere on the card */}
+            <div className="absolute inset-0 bg-black/60 z-10 pointer-events-none" />
+
+            {/* Heavy Vignette & Reading Gradients */}
+            <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-black via-black/95 md:via-black/90 to-transparent z-10 pointer-events-none" />
+            
+            {/* Holographic Scanline Hover Effect */}
+            <div className="absolute inset-0 bg-[linear-gradient(transparent_50%,rgba(34,211,238,0.03)_50%)] bg-[size:100%_4px] z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+            
+            {/* Cyber Brackets (Top Left, Bottom Right, etc.) */}
+            <div className="absolute top-4 left-4 w-12 h-12 border-t-2 border-l-2 border-white/10 group-hover:border-cyan-400 transition-colors duration-500 z-30 pointer-events-none" />
+            <div className="absolute bottom-4 right-4 w-12 h-12 border-b-2 border-r-2 border-white/10 group-hover:border-fuchsia-400 transition-colors duration-500 z-30 pointer-events-none" />
+            <div className="absolute top-4 right-4 w-12 h-12 border-t-2 border-r-2 border-white/10 group-hover:border-transparent transition-colors duration-500 z-30 pointer-events-none" />
+            <div className="absolute bottom-4 left-4 w-12 h-12 border-b-2 border-l-2 border-white/10 group-hover:border-transparent transition-colors duration-500 z-30 pointer-events-none" />
+
+            {/* Massive Ghost Sequence Number */}
+            <div className="absolute top-1/2 -translate-y-1/2 right-4 md:right-12 text-[120px] md:text-[250px] font-display font-bold text-white/[0.02] group-hover:text-cyan-400/[0.05] transition-colors duration-700 z-10 pointer-events-none selection:bg-transparent tracking-tighter">
+               0{index + 1}
+            </div>
+
+            {/* Depth Darkening Overlay for scrolling stack */}
             <motion.div
-              className="absolute inset-0 bg-black z-50 pointer-events-none rounded-[3rem]"
+              className="absolute inset-0 bg-black z-40 pointer-events-none"
               style={{ opacity: cardOverlayOpacity }}
             />
 
-            {/* Content Area */}
-            <div className="w-full md:w-1/2 p-6 md:p-12 flex flex-col justify-between h-full z-10 relative bg-neutral-900">
-              <div>
-                <div className="flex items-center gap-3 mb-4 md:mb-6">
-                  <span className={`w-2 h-2 md:w-2.5 md:h-2.5 rounded-full ${project.category === 'real' ? 'bg-primary' : 'bg-purple-500'} shadow-[0_0_10px_currentColor] animate-pulse`} />
-                  <span className="text-white/60 font-mono text-[10px] md:text-xs uppercase tracking-widest">{project.category} Project</span>
-                </div>
+            {/* Data Console UI (Foreground) */}
+            <div className="relative z-20 w-full h-full flex flex-col justify-between p-6 md:p-16">
+               
+               {/* Header Console */}
+               <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3 bg-neutral-950/80 backdrop-blur-md px-4 py-2 border border-white/10">
+                     <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse shadow-[0_0_10px_#22d3ee]" />
+                     <span className="font-mono text-[10px] md:text-xs text-cyan-400 uppercase tracking-widest">
+                        {project.category} Project
+                     </span>
+                  </div>
+                  <span className="font-mono text-[10px] text-white/30 tracking-[0.3em] hidden sm:block">SYS.INIT // SECURE</span>
+               </div>
 
-                <h3 className="text-3xl md:text-4xl lg:text-6xl font-display font-medium text-white mb-4 md:mb-6 leading-tight tracking-tight">
-                  {project.title}
-                </h3>
+               {/* Main Data block */}
+               <div className="max-w-2xl flex flex-col gap-6 border-l-2 border-cyan-500/30 pl-6 md:pl-10 relative">
+                  {/* Subtle pulsing line on the border */}
+                  <div className="absolute -left-[2px] top-0 w-[2px] h-12 bg-cyan-400 shadow-[0_0_10px_#22d3ee] animate-[pulse_3s_ease-in-out_Infinity]" />
+                  
+                  <h3 className="text-4xl md:text-5xl lg:text-7xl font-display font-bold text-white tracking-tighter leading-[0.9] drop-shadow-2xl">
+                     {project.title}
+                  </h3>
+                  
+                  <p className="text-gray-300 font-body text-sm md:text-lg lg:text-xl leading-relaxed max-w-xl text-shadow-sm font-medium pr-12 md:pr-0">
+                     {project.description}
+                  </p>
 
-                <p className="text-gray-400 text-sm md:text-base leading-relaxed mb-6 md:mb-8 line-clamp-2 md:line-clamp-none">
-                  {project.description}
-                </p>
+                  <div className="flex flex-wrap gap-2 mt-2">
+                     {project.technologies.slice(0, 4).map((tech: string) => (
+                       <span key={tech} className="px-3 py-1.5 bg-black/60 backdrop-blur-sm border border-white/10 text-white/80 text-[10px] md:text-xs font-mono tracking-[0.2em] uppercase cursor-crosshair hover:bg-cyan-950 hover:border-cyan-500/50 hover:text-cyan-400 transition-colors">
+                         {tech}
+                       </span>
+                     ))}
+                  </div>
 
-                <div className="flex flex-wrap gap-2">
-                  {project.technologies.slice(0, 4).map((tech: string) => (
-                    <span key={tech} className="px-3 py-1.5 border border-white/10 text-white/80 text-[10px] md:text-xs font-mono uppercase tracking-wider rounded-full bg-white/5">
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <a href={project.liveUrl} target="_blank" rel="noreferrer" className="group w-max flex items-center justify-center gap-3 px-6 md:px-8 py-3 md:py-4 bg-white text-black font-semibold text-xs md:text-sm rounded-full hover:bg-primary hover:text-white transition-all transform hover:scale-105 shadow-xl mt-4 md:mt-6">
-                View Site <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-              </a>
+                  <a href={project.liveUrl} target="_blank" rel="noreferrer" className="group/btn w-max flex items-center gap-4 mt-6 bg-cyan-500 text-black px-6 py-3 font-mono text-[10px] md:text-xs font-bold uppercase tracking-widest hover:bg-white transition-colors relative overflow-hidden shadow-[0_0_20px_rgba(34,211,238,0.2)]">
+                     <div className="absolute inset-0 bg-white translate-y-full group-hover/btn:translate-y-0 transition-transform duration-300 pointer-events-none" />
+                     <span className="relative z-10 flex items-center gap-4">
+                        View Live Platform <ArrowUpRight className="w-4 h-4 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
+                     </span>
+                  </a>
+               </div>
+               
             </div>
-
-            {/* Image Area */}
-            <div className="relative w-full md:w-1/2 h-[45%] md:h-full bg-black p-4 md:p-8 flex items-center justify-center border-t md:border-l md:border-t-0 border-white/5">
-              <div className="relative w-full h-full rounded-xl md:rounded-2xl overflow-hidden border border-white/10 bg-neutral-950 shadow-2xl">
-                <Image
-                  src={project.image}
-                  alt={project.title}
-                  fill
-                  className="object-contain object-bottom md:object-cover md:object-top transition-transform duration-1000 md:group-hover:scale-105"
-                  quality={100}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent pointer-events-none" />
-              </div>
-            </div>
-
           </div>
         </motion.div>
       </div>
-    </>
+    </div>
   )
 }

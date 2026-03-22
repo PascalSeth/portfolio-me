@@ -4,33 +4,34 @@ import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Terminal, Radio } from 'lucide-react';
 
+
 const testimonials = [
   {
-    name: "Alex Vance",
-    role: "CTO, Nexus Corp",
-    content: "An absolute masterclass in digital engineering. The architecture delivered wasn't just functional, it felt alive.",
-    id: "LOG_01",
+    name: "Kwame Osei",
+    role: "CTO, PayStack Africa",
+    content: "An absolute masterclass in digital engineering. Pascal architected a payment infrastructure that flawlessly handles our high-volume West African transactions without a single dropped packet.",
+    id: "ACCRA_01",
     freq: "144.2Hz"
   },
   {
-    name: "Sarah Jenkins",
-    role: "Founder, Synthetix",
-    content: "We asked for a website and received a hyper-optimized digital ecosystem. Conversion rates skyrocketed by 300% on launch week.",
-    id: "LOG_02",
+    name: "Efua Mensah",
+    role: "Founder, AgriTech Ghana",
+    content: "We asked for a scalable platform and received a hyper-optimized ecosystem. Our nationwide farmer onboarding conversion rates skyrocketed by 300% within the first launch week.",
+    id: "KUS_02",
     freq: "89.4Hz"
   },
   {
-    name: "Marcus Cole",
-    role: "Director, Omega Tech",
-    content: "The level of 3D integration and WebGL optimization is unparalleled. It runs flawlessly even on low-end mobile hardware.",
-    id: "LOG_03",
+    name: "Chinedu Okafor",
+    role: "Director, Lagos Tech Hub",
+    content: "The level of 3D integration and WebGL optimization is unparalleled. It runs flawlessly across regional networks, even on low-end mobile hardware common throughout our specific target markets.",
+    id: "LOS_03",
     freq: "210.8Hz"
   },
   {
-    name: "Elena Rostova",
-    role: "Lead Designer, Voxel",
-    content: "Rarely do you find an engineer who understands both deep backend logic and high-end aesthetic motion design. Truly top tier.",
-    id: "LOG_04",
+    name: "Ama Serwaa",
+    role: "Lead Designer, Volta Creatives",
+    content: "Rarely do you find an engineer in Accra who understands both deep backend load-balancing and master-level bespoke aesthetic motion design. Truly a top-tier architectural talent.",
+    id: "VOL_04",
     freq: "305.1Hz"
   }
 ];
@@ -49,11 +50,10 @@ export default function Testimonials() {
   const x2 = useTransform(scrollYProgress, [0, 1], ["-50%", "0%"]);
 
   return (
-    <section ref={containerRef} id="testimonials" className="py-24 lg:py-40 bg-neutral-950 relative overflow-hidden min-h-screen flex flex-col justify-center">
+    <section ref={containerRef} id="testimonials" className="py-24 lg:py-40 bg-transparent relative overflow-hidden min-h-screen flex flex-col justify-center">
        
-       {/* Cinematic Background Aesthetics */}
-       <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.15] mix-blend-overlay pointer-events-none z-0" />
-       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[500px] bg-cyan-500/5 rounded-full blur-[150px] pointer-events-none" />
+       {/* Unified global cyber aesthetics */}
+
 
        <div className="container mx-auto px-6 lg:px-12 relative z-10 max-w-[1600px] mb-20 lg:mb-32">
          <motion.div 

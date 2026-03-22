@@ -5,41 +5,42 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, Check, Sparkles, Terminal } from "lucide-react";
 import { Avatar } from "./Avatar";
 
+
 const services = [
   {
-    title: "Full-Stack Web Engineering",
-    description: "Custom high-performance web applications that solve complex business infrastructure problems.",
+    title: "Enterprise Web Applications",
+    description: "I build robust, blazingly-fast web applications custom-tailored to streamline your internal operations, engage users, and securely scale with your business.",
     technologies: ["React", "Next.js", "TypeScript", "Node.js"],
-    outcomes: ["50% faster systems", "Real-time sync", "Optimized UX"],
-    price: "From $500",
+    outcomes: ["Accelerated Workflows", "Reduced Overhead", "Bank-grade Security"],
+    price: "Custom Quote",
   },
   {
-    title: "Mobile Architecture & PWAs",
-    description: "Native and progressive web applications engineered for total cross-platform immersion.",
-    technologies: ["React Native", "Flutter", "PWA"],
-    outcomes: ["Cross-platform scale", "90% retention"],
-    price: "From $750",
+    title: "High-Conversion E-Commerce",
+    description: "Transform your digital storefront with modern, headless architecture designed specifically to absolutely minimize bounce rates and maximize your global sales.",
+    technologies: ["Shopify Plus", "Stripe", "Next.js Commerce"],
+    outcomes: ["Increased Conversions", "Lightning-fast Checkouts", "Seamless Inventory"],
+    price: "Custom Quote",
   },
   {
-    title: "E-commerce Scale Systems",
-    description: "High-converting bespoke storefronts powered by automated backends and headless CMS.",
-    technologies: ["Shopify", "Stripe", "PostgreSQL"],
-    outcomes: ["340% conversion boost", "LTV +200%"],
-    price: "From $800",
-  },
-  {
-    title: "Technical SEO & Load",
-    description: "Blazingly fast websites that rank organically. Refactoring architectures to pass Core Web Vitals.",
+    title: "Technical SEO & Load Optimization",
+    description: "Stop losing customers to slow load times. I refactor digital architecture to pass strictly enforced Core Web Vitals, driving raw organic traffic and superior user retention.",
     technologies: ["Core Web Vitals", "Edge Rendering", "Lighthouse"],
-    outcomes: ["8s → 1.2s load", "Traffic +300%"],
-    price: "From $300",
+    outcomes: ["Higher Organic Rankings", "Instant Millisecond Loads", "Maximized Retention"],
+    price: "Custom Quote",
   },
   {
-    title: "Full Digital Metamorphosis",
-    description: "End-to-end digital transformation involving cloud infrastructures, custom CRM, and analytics.",
-    technologies: ["Custom Software", "AWS/Vercel", "Analytics"],
-    outcomes: ["Full automation", "Overhead -50%"],
-    price: "From $1200",
+    title: "Cross-Platform Mobile Apps",
+    description: "Deliver a flawless, native-feeling experience to your users across both iOS and Android without the massive overhead of maintaining completely separate codebases.",
+    technologies: ["React Native", "Progressive Web Apps", "TailwindCSS"],
+    outcomes: ["Unified Brand Experience", "Wider Market Reach", "Direct Push Engagement"],
+    price: "Custom Quote",
+  },
+  {
+    title: "Digital Ecosystem Consulting",
+    description: "Let me completely modernize your legacy systems. I engineer cohesive cloud strategies that future-proof your tech stack while drastically reducing automated server costs.",
+    technologies: ["AWS / Vercel", "System Architecture", "API Integration"],
+    outcomes: ["Future-Proof Infrastructure", "Optimized Server Costs", "Automated Scalability"],
+    price: "Custom Quote",
   },
 ];
 
@@ -47,10 +48,10 @@ export default function Services() {
   const containerRef = useRef(null);
   
   // Tracks exactly which service the user is hovering to drive both the Accordion UI and the 3D Avatar state!
-  const [activeService, setActiveService] = useState<number | null>(null);
+  const [activeService, setActiveService] = useState<number | null>(0);
 
   return (
-    <section ref={containerRef} id="services" className="relative bg-neutral-950 text-white py-32 lg:py-48 min-h-[150svh]">
+    <section ref={containerRef} id="services" className="relative bg-transparent text-white py-32 lg:py-48 min-h-[150svh]">
       
       {/* 
         BORDERLESS 3D BACKGROUND STICKY LAYER 
@@ -60,9 +61,8 @@ export default function Services() {
       <div className="absolute inset-0 pointer-events-none z-0">
          <div className="sticky top-0 h-screen w-full overflow-hidden">
             
-            {/* Background Aesthetics */}
-            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.2] mix-blend-overlay z-10" />
-            <div className="absolute top-1/4 right-1/4 w-[600px] h-[600px] bg-fuchsia-500/5 rounded-full blur-[150px] z-0" />
+            {/* Intense Background Aesthetics */}
+
             
             {/* The Avatar elegantly positioned in the bottom right corner */}
             <div className="absolute bottom-10 right-0 lg:right-10 w-full lg:w-[50vw] h-[70svh] lg:h-[85svh] pointer-events-auto z-10 opacity-70 lg:opacity-100 mix-blend-screen transition-opacity duration-1000">
@@ -115,7 +115,7 @@ export default function Services() {
           {/* Flawlessly Smooth Accordion List using Framer Motion LayoutGroup logic */}
           <div 
              className="flex flex-col border-t-2 border-white/10 relative" 
-             onMouseLeave={() => setActiveService(null)}
+             onMouseLeave={() => setActiveService(0)}
           >
             {services.map((service, index) => (
               <ServiceRow 

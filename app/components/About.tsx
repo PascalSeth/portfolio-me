@@ -1,14 +1,16 @@
 'use client';
 
 import { useRef } from 'react';
+
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
 import { Terminal, Cpu, Database, Network } from 'lucide-react';
 
+
 const stats = [
-  { label: 'System Uptime', value: '99.9%', icon: Cpu },
+  { label: 'Value Delivered', value: '99.9%', icon: Cpu },
   { label: 'Projects Deployed', value: '15+', icon: Database },
-  { label: 'Clients Worldwide', value: '20+', icon: Network },
+  { label: 'Global Partners', value: '20+', icon: Network },
   { label: 'Hours Coded', value: '10k+', icon: Terminal }
 ];
 
@@ -24,13 +26,10 @@ export default function About() {
   const scaleImage = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
 
   return (
-    <section ref={container} id="about" className="py-32 lg:py-48 bg-neutral-950 relative overflow-hidden font-mono selection:bg-cyan-500/30">
+    <section ref={container} id="about" className="py-32 lg:py-48 bg-transparent relative overflow-hidden font-mono selection:bg-cyan-500/30">
       
-      {/* Cyber Background Grids & Glows */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#0ff1_1px,transparent_1px),linear-gradient(to_bottom,#0ff1_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] pointer-events-none opacity-30" />
-      
-      <div className="absolute top-1/2 left-1/4 w-[50vw] h-[50vw] bg-cyan-500/10 blur-[150px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 w-[40vw] h-[40vw] bg-fuchsia-500/10 blur-[150px] rounded-full pointer-events-none" />
+
+
 
       <div className="container mx-auto px-6 max-w-7xl relative z-10">
         
@@ -41,7 +40,7 @@ export default function About() {
             <span className="w-6 h-[1px] bg-cyan-400" /> ABOUT // PROFILE
           </p>
           <h2 className="text-4xl md:text-6xl lg:text-[80px] font-display font-medium text-white uppercase tracking-tighter leading-none shadow-black drop-shadow-lg">
-            My <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-fuchsia-500 italic pr-4">Profile.</span>
+            My <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-fuchsia-500 italic pr-4">Impact.</span>
           </h2>
         </div>
 
@@ -97,15 +96,15 @@ export default function About() {
                
                <h3 className="text-2xl md:text-4xl font-display font-medium text-white mb-8 flex items-center gap-4">
                  <Terminal className="w-8 h-8 text-fuchsia-400" />
-                 My Background_
+                 Business Value_
                </h3>
                
                <div className="space-y-6 text-gray-300 text-base md:text-lg leading-relaxed font-body relative z-10">
                  <p>
-                   I architect high-performance digital ecosystems. Merging solid engineering with a cybernetic aesthetic, I build web experiences that are not only blazingly fast but visually <span className="text-cyan-400 font-bold uppercase tracking-wider text-sm border-b border-cyan-900 pb-1">hypnotic</span>.
+                   I don't just write code—I architect scalable digital solutions designed to solve complex business bottlenecks and drive measurable <span className="text-cyan-400 font-bold uppercase tracking-wider text-sm border-b border-cyan-900 pb-1">revenue growth</span>.
                  </p>
                  <p>
-                   Every system I deploy is optimized for seamless user interaction and maximum throughput. Whether it is a scalable full-stack application or an immersive 3D interface, I ensure the products are fast, reliable, and beautifully crafted.
+                   By bridging the gap between cutting-edge engineering and premium aesthetic design, I help ambitious companies elevate their brand authority, heavily reduce operational overhead, and outpace their competition in the digital landscape.
                  </p>
                </div>
 

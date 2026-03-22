@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import Magnetic from './Magnetic';
 import { Avatar } from './Avatar';
 
+
 const contactMethods = [
    { icon: Mail, label: 'Email', value: 'pascalelikem@gmail.com', href: 'mailto:pascalelikem@gmail.com', description: 'Replies within 2 hours' },
    { icon: MessageCircle, label: 'WhatsApp', value: '+233 54 371 1728', href: 'https://wa.me/+233543711728', description: 'Quick questions' },
@@ -24,7 +25,7 @@ export default function Contact() {
    }, [state.succeeded]);
 
    return (
-      <section id="contact" className="py-24 lg:py-40 bg-neutral-950 relative overflow-hidden min-h-[120vh] lg:min-h-screen flex items-center">
+      <section id="contact" className="py-24 lg:py-40 bg-transparent relative overflow-hidden min-h-[120vh] lg:min-h-screen flex items-center">
 
          {/* 
         BORDERLESS 3D ENVIRONMENT 
@@ -33,8 +34,6 @@ export default function Contact() {
       */}
          <div className="absolute inset-0 z-0 pointer-events-none">
 
-            {/* Noise overlay for cinematic grading over the 3D scene */}
-            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.25] mix-blend-overlay z-20" />
 
             {/* The 3D Canvas spanning the right side natively */}
             <div className="absolute top-0 right-0 w-full lg:w-[65%] h-full pointer-events-auto z-10">
@@ -67,10 +66,10 @@ export default function Contact() {
                      <Terminal className="w-4 h-4 text-cyan-400" /> Get In Touch
                   </span>
                   <h2 className="text-6xl sm:text-7xl md:text-8xl lg:text-[110px] font-display font-medium tracking-tighter mb-6 text-white leading-[0.8] mix-blend-difference">
-                     LET'S <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-fuchsia-500 to-white italic pr-4">TALK.</span>
+                     SCALE YOUR <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-fuchsia-500 to-white italic pr-4">VISION.</span>
                   </h2>
                   <p className="text-white/60 text-base md:text-lg lg:text-xl font-body max-w-lg leading-relaxed">
-                     Have a project in mind? Let's build something breathtaking together. I'm currently available for new opportunities.
+                     Stop losing potential revenue to slow, outdated digital infrastructure. Let's start a conversation about securely accelerating your business growth.
                   </p>
                </motion.div>
 

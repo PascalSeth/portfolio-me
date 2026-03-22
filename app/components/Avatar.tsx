@@ -13,7 +13,7 @@ export type ActionName = "Typing" | "Warrior" | "Standing" | "Falling" | "Callin
 export function Avatar({ actionName = "Typing", scale = 2.0 }: { actionName?: ActionName, scale?: number }) {
   const showShadows = actionName !== "Falling";
   return (
-    <div className="absolute inset-0 w-full h-full z-10 overflow-visible pointer-events-auto">
+    <div className="absolute inset-0 w-full h-full z-10 overflow-visible pointer-events-auto [&>canvas]:!touch-pan-y">
       <Canvas camera={{ position: [0, 0, 5.5], fov: 40 }} shadows={showShadows}>
         <ambientLight intensity={0.6} />
         <spotLight position={[5, 8, 5]} angle={0.4} penumbra={1} intensity={5} color="#22d3ee" castShadow={showShadows} />
@@ -40,7 +40,7 @@ export function Avatar({ actionName = "Typing", scale = 2.0 }: { actionName?: Ac
 // The epic immersive Hero Dual-Avatar Scene!
 export function AvatarScene() {
   return (
-    <div className="absolute inset-0 w-full h-full z-10 overflow-visible pointer-events-auto">
+    <div className="absolute inset-0 w-full h-full z-10 overflow-visible pointer-events-auto [&>canvas]:!touch-pan-y">
       <Canvas camera={{ position: [0, 0, 8.5], fov: 40 }} shadows>
         <ambientLight intensity={0.5} />
         <spotLight position={[8, 10, 8]} angle={0.4} penumbra={1} intensity={6} color="#22d3ee" castShadow />

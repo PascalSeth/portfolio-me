@@ -19,6 +19,15 @@ interface Project {
 
 const projects: Project[] = [
   {
+    id: 0,
+    title: "TrendiZip",
+    description: "A premium multi-vendor fashion e-commerce ecosystem empowering independent creators to launch and scale their own personalized digital storefronts.",
+    image: '/projects/trendizip.png',
+    technologies: ["Next.js", "React", "Node.js", "Stripe"],
+    liveUrl: "https://trendizip.com/",
+    category: "real",
+  },
+  {
     id: 1,
     title: "BOTSVILLE",
     description: "Premier MLBB esports gaming community based in Ghana, fostering competitive talent and hosting regional tournaments.",
@@ -252,11 +261,11 @@ function Card({ project, index }: any) {
                />
             </div>
 
-            {/* Flat darkening mask to guarantee constant legibility anywhere on the card */}
-            <div className="absolute inset-0 bg-black/60 z-10 pointer-events-none" />
+            {/* Flat darkening mask to guarantee constant legibility on mobile stacking */}
+            <div className="absolute inset-0 bg-black/60 md:bg-transparent z-10 pointer-events-none" />
 
-            {/* Heavy Vignette & Reading Gradients */}
-            <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-black via-black/95 md:via-black/90 to-transparent z-10 pointer-events-none" />
+            {/* Heavy left-to-right reading gradient - leaves the right side crisp on desktop */}
+            <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-black via-black/95 md:via-black/80 to-transparent z-10 pointer-events-none" />
             
             {/* Holographic Scanline Hover Effect */}
             <div className="absolute inset-0 bg-[linear-gradient(transparent_50%,rgba(34,211,238,0.03)_50%)] bg-[size:100%_4px] z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700" />

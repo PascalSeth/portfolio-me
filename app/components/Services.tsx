@@ -115,7 +115,6 @@ export default function Services() {
           {/* Flawlessly Smooth Accordion List using Framer Motion LayoutGroup logic */}
           <div 
              className="flex flex-col border-t-2 border-white/10 relative" 
-             onMouseLeave={() => setActiveService(0)}
           >
             {services.map((service, index) => (
               <ServiceRow 
@@ -123,7 +122,7 @@ export default function Services() {
                 service={service} 
                 index={index} 
                 isActive={activeService === index}
-                onHover={() => setActiveService(index)}
+                onClick={() => setActiveService(activeService === index ? null : index)}
               />
             ))}
           </div>
@@ -135,12 +134,11 @@ export default function Services() {
 }
 
 // Sleek Expanding Row Component utilizing layoutId for perfect background gliding!
-function ServiceRow({ service, index, isActive, onHover }: any) {
+function ServiceRow({ service, index, isActive, onClick }: any) {
   return (
     <div 
       className="group relative border-b border-white/10 transition-colors duration-500 cursor-pointer w-full text-left"
-      onMouseEnter={onHover}
-      onClick={onHover}
+      onClick={onClick}
     >
       {/* MAGIC HOVER STATE Background */}
       <AnimatePresence>

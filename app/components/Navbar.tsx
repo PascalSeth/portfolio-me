@@ -2,7 +2,7 @@
 
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
-import { TerminalSquare, Clock, ArrowUpRight } from 'lucide-react';
+import { Menu, X, TerminalSquare, Clock, ArrowUpRight } from 'lucide-react';
 import Link from 'next/link';
 import Magnetic from './Magnetic';
 

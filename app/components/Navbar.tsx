@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
-import { Menu, X, TerminalSquare } from 'lucide-react';
+import { TerminalSquare, Clock, ArrowUpRight } from 'lucide-react';
 import Link from 'next/link';
 import Magnetic from './Magnetic';
 
@@ -16,21 +16,18 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
+  const [hoveredLink, setHoveredLink] = useState<string | null>(null);
   
   const { scrollY } = useScroll();
 
-  // Hide Navbar when scrolling down, show when scrolling up
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious() || 0;
-    
-    // Set smaller padding styling state
     setScrolled(latest > 50);
 
-    // Hide/Show logic
-    if (latest > 150 && latest > previous) {
-      setHidden(true); // scrolling down
+    if (latest > 400 && latest > previous) {
+      setHidden(true); 
     } else {
-      setHidden(false); // scrolling up
+      setHidden(false); 
     }
   });
 
@@ -38,172 +35,132 @@ export default function Navbar() {
     <>
       <motion.nav
         variants={{
-          visible: { 
-            y: 0, 
-            opacity: 1, 
-            // Cyber Glitch Effect on Entrance
-            x: [0, -5, 5, -2, 2, 0],
-            filter: ["hue-rotate(0deg)", "hue-rotate(90deg)", "hue-rotate(180deg)", "hue-rotate(0deg)"],
-            transition: { duration: 0.4, ease: "easeOut" }
-          },
-          hidden: { 
-            y: "-120%", 
-            opacity: 0,
-            transition: { duration: 0.3, ease: "easeIn" }
-          },
+          visible: { y: 0, opacity: 1 },
+          hidden: { y: "-120%", opacity: 0 },
         }}
-        initial="visible"
         animate={hidden ? "hidden" : "visible"}
-        className={`fixed top-0 left-0 right-0 z-[100] flex justify-center px-4 md:px-8 transition-[padding] duration-500 
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        className={`fixed top-0 left-0 right-0 z-[100] flex justify-center px-4 md:px-8 transition-all duration-500 
           ${scrolled ? 'py-4' : 'py-8'}`}
       >
         <div 
-          className="relative flex items-center justify-between w-full max-w-7xl bg-neutral-950/80 backdrop-blur-xl border border-cyan-500/30 px-6 py-4 shadow-[0_0_40px_rgba(34,211,238,0.1)] group transition-colors hover:border-cyan-400/60"
-          style={{ clipPath: "polygon(0 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 0)" }}
+          className="relative flex items-center justify-between w-full max-w-6xl bg-white/40 backdrop-blur-2xl border border-white/60 px-4 md:px-8 py-3 rounded-full shadow-xl shadow-purple-500/5 group transition-all hover:bg-white/60"
         >
-          {/* Cyber accents borders */}
-          <div className="absolute top-0 left-0 w-16 h-[2px] bg-cyan-400 shadow-[0_0_15px_#22d3ee]" />
-          <div className="absolute bottom-0 right-16 w-24 h-[2px] bg-fuchsia-500 shadow-[0_0_15px_#d946ef]" />
-          <div className="absolute top-0 right-0 w-[2px] h-8 bg-cyan-400/50" />
-          <div className="absolute bottom-4 left-0 w-[2px] h-8 bg-fuchsia-400/50" />
-          
-          {/* Logo */}
+          {/* Creative Left: Time/Status */}
+          <div className="hidden lg:flex items-center gap-6">
+            <div className="flex items-center gap-2">
+               <div className="w-1.5 h-1.5 rounded-full bg-purple-500 animate-pulse" />
+               <span className="font-mono text-[9px] uppercase tracking-widest text-zinc-400">System.Active</span>
+            </div>
+            <div className="flex items-center gap-2 text-zinc-400">
+               <Clock className="w-3 h-3" />
+               <span className="font-mono text-[9px] uppercase tracking-widest">EST / 07:53</span>
+            </div>
+          </div>
+
+          {/* Center: Logo */}
           <Link href="/" className="flex items-center gap-3 relative z-10 group/logo">
-            <TerminalSquare className="w-5 h-5 md:w-6 md:h-6 text-cyan-400 group-hover/logo:text-fuchsia-400 transition-colors" />
-            <span className="font-display font-medium text-lg md:text-xl tracking-widest uppercase text-white group-hover/logo:text-cyan-400 transition-colors">
-              P.SETH <span className="text-cyan-500/50 text-[10px] md:text-xs font-mono ml-1 hidden sm:inline-block">v2.0_</span>
+            <div className="w-8 h-8 rounded-lg bg-zinc-900 flex items-center justify-center group-hover:rotate-12 transition-transform duration-500">
+               <TerminalSquare className="w-5 h-5 text-white" />
+            </div>
+            <span className="font-display font-medium text-lg md:text-xl tracking-tighter text-zinc-900">
+              P.SETH <span className="text-purple-600/50 text-[10px] italic">v2</span>
             </span>
           </Link>
 
-          {/* Desktop Links */}
-          <div className="hidden md:flex items-center gap-10">
-            {navLinks.map((link) => (
-              <Magnetic key={link.name}>
+          {/* Right: Nav Links + CTA */}
+          <div className="flex items-center gap-2 md:gap-8">
+            <div className="hidden md:flex items-center gap-1 bg-zinc-900/5 p-1 rounded-full border border-black/5">
+              {navLinks.map((link) => (
                 <Link 
+                  key={link.name}
                   href={link.href}
-                  className="relative font-mono text-xs lg:text-sm tracking-[0.2em] text-gray-400 hover:text-cyan-400 uppercase transition-colors group/link py-2 flex items-center"
+                  onMouseEnter={() => setHoveredLink(link.name)}
+                  onMouseLeave={() => setHoveredLink(null)}
+                  className="relative px-6 py-2 rounded-full font-mono text-[11px] tracking-[0.15em] text-zinc-500 hover:text-zinc-900 uppercase transition-colors z-10"
                 >
-                  <span className="opacity-0 group-hover/link:opacity-100 text-cyan-500 mr-2 transition-opacity duration-300">{'<'}</span>
+                  {hoveredLink === link.name && (
+                    <motion.div 
+                      layoutId="nav-hover"
+                      className="absolute inset-0 bg-white shadow-sm rounded-full -z-10"
+                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                    />
+                  )}
                   {link.name}
-                  <span className="opacity-0 group-hover/link:opacity-100 text-cyan-500 ml-2 transition-opacity duration-300">{'/>'}</span>
-                  
-                  {/* Glitch underline track */}
-                  <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0 h-[1px] bg-cyan-400 group-hover/link:w-[80%] transition-all duration-300" />
                 </Link>
-              </Magnetic>
-            ))}
-          </div>
-
-          {/* System Status / CTA */}
-          <div className="hidden md:flex items-center gap-6">
-            <div className="flex items-center gap-2 px-3 py-1 bg-cyan-950/30 border border-cyan-500/20 rounded">
-              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_8px_#22d3ee]" />
-              <span className="text-[10px] font-mono text-cyan-400 uppercase tracking-[0.2em]">Sys.Online</span>
+              ))}
             </div>
-            
+
             <Magnetic>
               <Link 
                 href="#contact"
-                className="relative inline-flex items-center justify-center px-8 py-3 bg-white text-black font-bold font-mono text-xs uppercase tracking-widest hover:bg-cyan-400 hover:text-black transition-all duration-300 overflow-hidden group/btn"
-                style={{ clipPath: "polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px)" }}
+                className="group relative inline-flex items-center justify-center px-6 py-2.5 bg-zinc-900 text-white rounded-full font-mono text-[11px] uppercase tracking-widest overflow-hidden transition-all hover:scale-105 active:scale-95 shadow-lg shadow-purple-500/10"
               >
                 <span className="relative z-10 flex items-center gap-2">
-                  Initialize <div className="w-1.5 h-1.5 bg-black rounded-full animate-bounce delay-100" />
+                  Let's Talk <ArrowUpRight className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                 </span>
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-blue-600 translate-y-[100%] group-hover:translate-y-0 transition-transform duration-300" />
               </Link>
             </Magnetic>
-          </div>
 
-          {/* Mobile Menu Toggle */}
-          <button 
-            onClick={() => setIsOpen(true)}
-            className="md:hidden text-cyan-400 hover:text-white transition-colors relative z-10 p-2 border border-cyan-500/30 rounded bg-cyan-950/30"
-          >
-             <Menu className="w-6 h-6" />
-          </button>
+            {/* Mobile Toggle */}
+            <button 
+              onClick={() => setIsOpen(true)}
+              className="md:hidden w-10 h-10 flex items-center justify-center rounded-full bg-zinc-900 text-white"
+            >
+               <MenuIcon />
+            </button>
+          </div>
         </div>
       </motion.nav>
 
-      {/* Full Screen Cyber Mobile Menu */}
+      {/* Full Screen Creative Mobile Menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div 
-            initial={{ opacity: 0, clipPath: 'polygon(0 0, 100% 0, 100% 0, 0 0)' }}
-            animate={{ opacity: 1, clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)' }}
-            exit={{ opacity: 0, clipPath: 'polygon(0 100%, 100% 100%, 100% 100%, 0 100%)' }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed inset-0 z-[200] bg-neutral-950 flex flex-col justify-center px-6 sm:px-12"
+            initial={{ opacity: 0, scale: 1.1, filter: "blur(10px)" }}
+            animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+            exit={{ opacity: 0, scale: 1.1, filter: "blur(10px)" }}
+            transition={{ duration: 0.5 }}
+            className="fixed inset-0 z-[200] bg-white/90 backdrop-blur-3xl flex flex-col items-center justify-center px-6"
           >
-            {/* Cyber Grid Bg */}
-            <div className="absolute inset-0 bg-[linear-gradient(to_right,#0ff1_1px,transparent_1px),linear-gradient(to_bottom,#0ff1_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none opacity-20" />
-            <div className="absolute top-0 right-0 w-[80vw] h-[80vw] bg-cyan-500/10 blur-[120px] rounded-full pointer-events-none" />
+            <button 
+              onClick={() => setIsOpen(false)}
+              className="absolute top-10 right-10 w-12 h-12 flex items-center justify-center rounded-full bg-zinc-900 text-white"
+            >
+              <X className="w-6 h-6" />
+            </button>
 
-            {/* Header HUD */}
-            <div className="absolute top-6 sm:top-12 left-6 sm:left-12 right-6 sm:right-12 flex justify-between items-center border-b-2 border-cyan-500/30 pb-4">
-              <span className="font-mono text-cyan-400 tracking-[0.2em] text-[10px] sm:text-xs uppercase flex items-center gap-3">
-                <span className="w-2 h-2 rounded-full bg-cyan-400 animate-[ping_2s_infinite]" /> Terminal Active
-              </span>
-              <button 
-                onClick={() => setIsOpen(false)}
-                className="text-white/50 hover:text-fuchsia-400 transition-colors border border-white/10 p-2 rounded hover:border-fuchsia-500/50 bg-white/5"
-              >
-                <X className="w-6 h-6" />
-              </button>
-            </div>
-
-            {/* Links Array */}
-            <div className="flex flex-col gap-6 sm:gap-10 relative z-10 mt-12 sm:mt-24">
+            <div className="flex flex-col gap-8 text-center">
                {navLinks.map((link, i) => (
                 <motion.div
                   key={link.name}
-                  initial={{ opacity: 0, x: -50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.3 + (i * 0.1), duration: 0.6, ease: "easeOut" }}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.1 }}
                 >
                   <Link 
                     href={link.href}
                     onClick={() => setIsOpen(false)}
-                    className="group flex flex-col border-l-2 border-cyan-900 hover:border-cyan-400 pl-6 sm:pl-8 py-2 transition-all duration-300"
+                    className="text-5xl font-display font-medium text-zinc-900 hover:text-purple-600 transition-colors uppercase tracking-tighter"
                   >
-                    <span className="text-cyan-500/50 font-mono text-[10px] sm:text-xs mb-2 tracking-widest uppercase flex items-center gap-2">
-                       0{i + 1} <span className="w-4 h-px bg-cyan-500/30 group-hover:bg-cyan-400 transition-colors" />
-                    </span>
-                    <span className="text-4xl sm:text-6xl font-display font-medium text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-cyan-400 group-hover:to-fuchsia-500 uppercase tracking-tighter transition-all duration-500">
-                      {link.name}
-                    </span>
+                    {link.name}
                   </Link>
                 </motion.div>
               ))}
             </div>
-            
-            {/* Direct Connect Button (Mobile only) */}
-            <motion.div 
-               initial={{ opacity: 0, y: 30 }}
-               animate={{ opacity: 1, y: 0 }}
-               transition={{ delay: 0.8, duration: 0.6 }}
-               className="mt-16 relative z-10 md:hidden"
-            >
-               <Link 
-                  href="#contact"
-                  onClick={() => setIsOpen(false)}
-                  className="block w-full text-center py-5 bg-cyan-500 text-black font-mono font-bold text-xs tracking-widest uppercase hover:bg-white transition-colors border border-cyan-400 shadow-[0_0_30px_rgba(34,211,238,0.3)]"
-               >
-                 Execute Connection
-               </Link>
-            </motion.div>
-
-            {/* Footer Data */}
-            <div className="absolute bottom-6 sm:bottom-12 left-6 sm:left-12 right-6 sm:right-12 border-t-2 border-cyan-500/30 pt-4 flex justify-between items-end text-[8px] sm:text-[10px] font-mono text-white/40 uppercase tracking-widest">
-              <span className="flex flex-col gap-1">
-                 <span>Encryption: 256-BIT</span>
-                 <span className="text-cyan-400">Security: Enabled</span>
-              </span>
-              <span className="text-white/60">P.SETH / © 2026</span>
-            </div>
-
           </motion.div>
         )}
       </AnimatePresence>
     </>
+  );
+}
+
+function MenuIcon() {
+  return (
+    <svg width="20" height="10" viewBox="0 0 20 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="20" height="1.5" rx="0.75" fill="currentColor" />
+      <rect y="8.5" width="20" height="1.5" rx="0.75" fill="currentColor" />
+    </svg>
   );
 }

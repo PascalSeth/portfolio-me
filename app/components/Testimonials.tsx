@@ -1,142 +1,112 @@
 'use client';
 
-import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { Terminal, Radio } from 'lucide-react';
-
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Quote } from 'lucide-react';
 
 const testimonials = [
   {
     name: "Kwame Osei",
-    role: "CTO, PayStack Africa",
-    content: "An absolute masterclass in digital engineering. Pascal architected a payment infrastructure that flawlessly handles our high-volume West African transactions without a single dropped packet.",
-    id: "ACCRA_01",
-    freq: "144.2Hz"
+    role: "Tech Manager",
+    content: "Pascal built a great payment system for us. It handles all our transactions perfectly without any issues.",
   },
   {
     name: "Efua Mensah",
-    role: "Founder, AgriTech Ghana",
-    content: "We asked for a scalable platform and received a hyper-optimized ecosystem. Our nationwide farmer onboarding conversion rates skyrocketed by 300% within the first launch week.",
-    id: "KUS_02",
-    freq: "89.4Hz"
+    role: "Business Owner",
+    content: "He built a fast platform that helped our business grow. Our user numbers went up by 300% in the first week.",
   },
   {
     name: "Chinedu Okafor",
-    role: "Director, Lagos Tech Hub",
-    content: "The level of 3D integration and WebGL optimization is unparalleled. It runs flawlessly across regional networks, even on low-end mobile hardware common throughout our specific target markets.",
-    id: "LOS_03",
-    freq: "210.8Hz"
+    role: "Product Director",
+    content: "The 3D work is amazing. It runs fast on all phones, even the cheaper ones in our market.",
   },
   {
     name: "Ama Serwaa",
-    role: "Lead Designer, Volta Creatives",
-    content: "Rarely do you find an engineer in Accra who understands both deep backend load-balancing and master-level bespoke aesthetic motion design. Truly a top-tier architectural talent.",
-    id: "VOL_04",
-    freq: "305.1Hz"
+    role: "Creative Lead",
+    content: "It's hard to find someone who understands both design and code this well. Pascal is a great talent.",
   }
 ];
 
 export default function Testimonials() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  
-  // Parallax scroll tracking for the massive horizontal slider!
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"]
-  });
-
-  // Dual opposing directional transforms bound directly to the user's vertical scrollwheel
-  const x1 = useTransform(scrollYProgress, [0, 1], ["0%", "-50%"]);
-  const x2 = useTransform(scrollYProgress, [0, 1], ["-50%", "0%"]);
+  const doubledTestimonials = [...testimonials, ...testimonials];
 
   return (
-    <section ref={containerRef} id="testimonials" className="py-24 lg:py-40 bg-transparent relative overflow-hidden min-h-screen flex flex-col justify-center">
-       
-       {/* Unified global cyber aesthetics */}
+    <section id="testimonials" className="py-24 lg:py-40 bg-transparent relative overflow-hidden border-t border-purple-100">
+      
+      <div className="container mx-auto px-6 lg:px-12 mb-20">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+          viewport={{ once: true }}
+          className="flex flex-col items-center text-center"
+        >
+          <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-purple-600/40 mb-4">
+            What clients say
+          </span>
+          <h2 className="text-5xl md:text-7xl font-display font-medium tracking-tighter text-zinc-900 uppercase italic">
+            Testimonials.
+          </h2>
+        </motion.div>
+      </div>
 
+      {/* Infinite Horizontal Scroll Row 1 */}
+      <div className="flex overflow-hidden group">
+        <motion.div 
+          animate={{ x: ["0%", "-50%"] }}
+          transition={{ 
+            duration: 35, 
+            repeat: Infinity, 
+            ease: "linear" 
+          }}
+          className="flex gap-8 px-4"
+        >
+          {doubledTestimonials.map((t, i) => (
+            <TestimonialCard key={`row1-${i}`} testimonial={t} />
+          ))}
+        </motion.div>
+      </div>
 
-       <div className="container mx-auto px-6 lg:px-12 relative z-10 max-w-[1600px] mb-20 lg:mb-32">
-         <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-            viewport={{ once: true }}
-            className="flex flex-col items-center text-center"
-         >
-            <span className="font-mono text-[10px] md:text-sm tracking-[0.3em] uppercase text-fuchsia-500 mb-6 flex items-center gap-3">
-               <Radio className="w-4 h-4 text-fuchsia-500 animate-pulse" /> Intercepted Comms
-            </span>
-            <h2 className="text-6xl sm:text-7xl md:text-8xl lg:text-[110px] font-display font-medium tracking-tighter text-white leading-[0.8]">
-              CLIENT <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-fuchsia-500 to-white italic pr-4">LOGS.</span>
-            </h2>
-         </motion.div>
-       </div>
+      {/* Infinite Horizontal Scroll Row 2 (Reverse) */}
+      <div className="flex overflow-hidden mt-12 group">
+        <motion.div 
+          animate={{ x: ["-50%", "0%"] }}
+          transition={{ 
+            duration: 45, 
+            repeat: Infinity, 
+            ease: "linear" 
+          }}
+          className="flex gap-8 px-4"
+        >
+          {doubledTestimonials.map((t, i) => (
+            <TestimonialCard key={`row2-${i}`} testimonial={t} />
+          ))}
+        </motion.div>
+      </div>
 
-       {/* The Infinite Custom Marquee Sliders - Hardware Accelerated */}
-       <div className="relative z-10 flex flex-col gap-8 w-[200vw] lg:w-[150vw] -ml-[50vw] lg:-ml-[25vw] pointer-events-none">
-          
-          <motion.div style={{ x: x1 }} className="flex gap-8 px-4 pointer-events-auto">
-             {/* Duplicate array for seamless infinite illusion matching the parallax offset bounds */}
-             {[...testimonials, ...testimonials, ...testimonials].map((t, i) => (
-                <TestimonialCard key={`top-${i}`} testimonial={t} index={i} />
-             ))}
-          </motion.div>
-
-          <motion.div style={{ x: x2 }} className="flex gap-8 px-4 pointer-events-auto">
-             {[...testimonials, ...testimonials, ...testimonials].reverse().map((t, i) => (
-                <TestimonialCard key={`bottom-${i}`} testimonial={t} index={i} />
-             ))}
-          </motion.div>
-
-       </div>
     </section>
   );
 }
 
-function TestimonialCard({ testimonial, index }: any) {
+function TestimonialCard({ testimonial }: { testimonial: typeof testimonials[0] }) {
   return (
-    <div className="group flex-shrink-0 w-[320px] md:w-[450px] p-8 lg:p-10 rounded-[2rem] bg-neutral-900/40 border border-white/5 hover:border-cyan-500/30 transition-all duration-500 backdrop-blur-md relative overflow-hidden cursor-crosshair shadow-2xl">
-       
-       {/* Pseudo Glitch Sweep on Hover */}
-       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-400/10 to-transparent -translate-x-[150%] group-hover:translate-x-[150%] transition-transform duration-[1.5s] ease-in-out z-0" />
-       
-       <div className="relative z-10 flex flex-col h-full justify-between gap-8">
-          
-          {/* Diagnostic Header Data */}
-          <div className="flex justify-between items-start border-b border-white/10 pb-4">
-             <div className="flex flex-col gap-1">
-                <span className="font-mono text-[10px] text-cyan-500 tracking-[0.2em] uppercase">Packet: {testimonial.id}</span>
-                <span className="font-mono text-[10px] text-white/30 tracking-[0.2em] uppercase">Freq: {testimonial.freq}</span>
-             </div>
-             
-             {/* Live Audio Waveform Animation directly driven by Framer Motion array interpolation! */}
-             <div className="flex items-center gap-[3px] h-6 px-3 py-1 bg-black/40 rounded-full border border-white/5 group-hover:border-cyan-500/30 transition-colors">
-                {[...Array(5)].map((_, i) => (
-                   <motion.div 
-                     key={i}
-                     animate={{ height: ["20%", "100%", "40%", "90%", "20%"] }}
-                     transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.1, ease: "easeInOut" }}
-                     className="w-[3px] bg-cyan-500/50 group-hover:bg-cyan-400 rounded-full transition-colors duration-500"
-                   />
-                ))}
-             </div>
-          </div>
+    <div className="flex-shrink-0 w-[300px] md:w-[450px] p-10 rounded-[3rem] bg-white/90 backdrop-blur-sm border border-white/60 hover:border-purple-200/50 transition-all duration-500 shadow-xl shadow-purple-500/5 group">
+      <div className="flex flex-col h-full gap-8">
+        <div className="w-12 h-12 rounded-2xl bg-purple-50 flex items-center justify-center group-hover:scale-110 transition-transform duration-500 shadow-sm border border-purple-100">
+          <Quote className="w-5 h-5 text-purple-400" />
+        </div>
+        
+        <p className="text-zinc-600 text-base md:text-lg leading-relaxed italic font-body">
+          "{testimonial.content}"
+        </p>
 
-          <p className="text-white/60 font-body text-base md:text-lg leading-relaxed mix-blend-screen transition-colors duration-300 group-hover:text-white/90">
-             "{testimonial.content}"
+        <div className="pt-8 border-t border-purple-100 mt-auto">
+          <h4 className="text-zinc-900 font-medium text-sm md:text-base tracking-tight">{testimonial.name}</h4>
+          <p className="text-purple-600/60 font-mono text-[10px] uppercase tracking-widest mt-2">
+            {testimonial.role}
           </p>
-
-          <div className="flex items-center gap-4 mt-4 pt-6 border-t border-white/5">
-             <div className="w-10 h-10 rounded-full bg-black border border-white/10 flex items-center justify-center group-hover:bg-cyan-950/20 group-hover:border-cyan-500/20 transition-colors">
-                <Terminal className="w-4 h-4 text-white/30 group-hover:text-cyan-400 transition-colors" />
-             </div>
-             <div className="flex flex-col gap-1">
-                <h4 className="text-white/80 font-display font-medium text-sm tracking-wide">{testimonial.name}</h4>
-                <p className="text-fuchsia-500/70 font-mono text-[10px] uppercase tracking-widest">{testimonial.role}</p>
-             </div>
-          </div>
-
-       </div>
+        </div>
+      </div>
     </div>
   );
 }

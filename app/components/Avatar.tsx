@@ -14,11 +14,11 @@ export function Avatar({ actionName = "Typing", scale = 2.0 }: { actionName?: Ac
   const showShadows = actionName !== "Falling";
   return (
     <div className="absolute inset-0 w-full h-full z-10 overflow-visible pointer-events-auto [&>canvas]:!touch-pan-y">
-      <Canvas camera={{ position: [0, 0, 5.5], fov: 40 }} shadows={showShadows}>
-        <ambientLight intensity={0.6} />
-        <spotLight position={[5, 8, 5]} angle={0.4} penumbra={1} intensity={5} color="#22d3ee" castShadow={showShadows} />
-        <spotLight position={[-5, 8, 2]} angle={0.4} penumbra={1} intensity={5} color="#d946ef" castShadow={showShadows} />
-        <directionalLight position={[0, -2, -5]} intensity={2} color="#0ff" />
+      <Canvas camera={{ position: [0, 0, 7.5], fov: 35 }} shadows={showShadows}>
+        <ambientLight intensity={0.4} />
+        <spotLight position={[5, 10, 5]} angle={0.3} penumbra={1} intensity={15} color="#ffffff" castShadow={showShadows} />
+        <spotLight position={[-5, 5, 5]} angle={0.3} penumbra={1} intensity={10} color="#ffffff" castShadow={showShadows} />
+        <directionalLight position={[0, -2, -5]} intensity={4} color="#ffffff" />
         <Environment preset="city" />
 
         <Suspense fallback={null}>
@@ -28,7 +28,7 @@ export function Avatar({ actionName = "Typing", scale = 2.0 }: { actionName?: Ac
             rotation={[0, 0, 0]}
             scale={scale}
           />
-          {showShadows && <ContactShadows position={[0, -2.6, 0]} opacity={0.6} scale={10} blur={2.5} far={4} color="#22d3ee" />}
+          {showShadows && <ContactShadows position={[0, -2.6, 0]} opacity={0.4} scale={10} blur={2.5} far={4} color="#000000" />}
         </Suspense>
 
         <OrbitControls enableZoom={false} enablePan={false} enableRotate={true} autoRotate={false} maxPolarAngle={Math.PI / 2} minPolarAngle={Math.PI / 2} />
@@ -42,10 +42,10 @@ export function AvatarScene() {
   return (
     <div className="absolute inset-0 w-full h-full z-10 overflow-visible pointer-events-auto [&>canvas]:!touch-pan-y">
       <Canvas camera={{ position: [0, 0, 8.5], fov: 40 }} shadows>
-        <ambientLight intensity={0.5} />
-        <spotLight position={[8, 10, 8]} angle={0.4} penumbra={1} intensity={6} color="#22d3ee" castShadow />
-        <spotLight position={[-8, 10, -2]} angle={0.4} penumbra={1} intensity={6} color="#d946ef" castShadow />
-        <directionalLight position={[0, -2, -5]} intensity={2} color="#0ff" />
+        <ambientLight intensity={0.4} />
+        <spotLight position={[8, 10, 8]} angle={0.4} penumbra={1} intensity={12} color="#ffffff" castShadow />
+        <spotLight position={[-8, 10, -2]} angle={0.4} penumbra={1} intensity={8} color="#666666" castShadow />
+        <directionalLight position={[0, -2, -5]} intensity={2} color="#ffffff" />
         <Environment preset="city" />
 
         <Suspense fallback={null}>

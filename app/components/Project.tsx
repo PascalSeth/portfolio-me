@@ -179,12 +179,14 @@ function Card({ project, index }: any) {
           <div className="relative flex flex-col w-full h-full bg-white/90 backdrop-blur-sm border border-white/60 overflow-hidden shadow-2xl rounded-[3rem] group-hover:border-purple-200/50 transition-colors duration-500 transform-gpu">
             
             <div className="absolute inset-0 z-0 bg-zinc-100">
-               <Image 
+               <Image
                  src={project.image}
                  alt={project.title}
                  fill
                  className="object-cover opacity-60 transition-transform duration-[3s] ease-out group-hover:scale-105"
-                 quality={80}
+                 quality={75}
+                 sizes="(max-width: 768px) 100vw, 1200px"
+                 priority={index === 0}
                />
             </div>
 

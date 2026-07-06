@@ -1,145 +1,132 @@
 'use client';
 
-import React, { useEffect, useRef, Suspense, useMemo } from "react";
+import React, { useEffect, Suspense, useMemo, useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { useGLTF, useFBX, Environment, OrbitControls, ContactShadows } from "@react-three/drei";
+import { useGLTF, Environment, OrbitControls, ContactShadows, useFBX } from "@react-three/drei";
 import * as THREE from "three";
 import { SkeletonUtils } from "three-stdlib";
 
-// Comprehensive ActionName type supporting all loaded animations
 export type ActionName = "Typing" | "Warrior" | "Standing" | "Falling" | "Calling" | "Walking" | "Laying" | "Talking";
 
-// Detailed single Avatar instance used heavily across the site (Services, Contact, etc)
+import { useInView } from 'framer-motion';
+
 export function Avatar({ actionName = "Typing", scale = 2.0 }: { actionName?: ActionName, scale?: number }) {
   const showShadows = actionName !== "Falling";
+  const ref = useRef(null);
+  const isInView = useInView(ref, { margin: "200px" });
+
   return (
-    <div className="absolute inset-0 w-full h-full z-10 overflow-visible pointer-events-auto [&>canvas]:!touch-pan-y">
-      <Canvas camera={{ position: [0, 0, 7.5], fov: 35 }} shadows={showShadows}>
-        <ambientLight intensity={0.4} />
-        <spotLight position={[5, 10, 5]} angle={0.3} penumbra={1} intensity={15} color="#ffffff" castShadow={showShadows} />
-        <spotLight position={[-5, 5, 5]} angle={0.3} penumbra={1} intensity={10} color="#ffffff" castShadow={showShadows} />
-        <directionalLight position={[0, -2, -5]} intensity={4} color="#ffffff" />
-        <Environment preset="city" />
+    <div ref={ref} className="absolute inset-0 w-full h-full z-10 overflow-visible pointer-events-auto [&>canvas]:!touch-pan-y">
+      {isInView && (
+        <Canvas
+          camera={{ position: [0, 0, 5.0], fov: 40 }}
+          shadows={showShadows}
+          dpr={[1, 1.2]}
+          gl={{ antialias: false, powerPreference: "high-performance" }}
+        >
+          <ambientLight intensity={0.4} />
+          <spotLight position={[5, 10, 5]} angle={0.3} penumbra={1} intensity={15} color="#ffffff" />
+          <spotLight position={[-5, 5, 5]} angle={0.3} penumbra={1} intensity={10} color="#ffffff" />
+          <directionalLight position={[0, -2, -5]} intensity={4} color="#ffffff" />
+          <Environment preset="city" resolution={256} />
 
-        <Suspense fallback={null}>
-          <AvatarModel
-            actionName={actionName}
-            position={[0, actionName === "Falling" ? -0.5 : -2.6, 0]}
-            rotation={[0, 0, 0]}
-            scale={scale}
-          />
-          {showShadows && <ContactShadows position={[0, -2.6, 0]} opacity={0.4} scale={10} blur={2.5} far={4} color="#000000" />}
-        </Suspense>
+          <Suspense fallback={null}>
+            <AvatarModel
+              actionName={actionName}
+              position={[0, actionName === "Falling" ? -0.5 : -2.6, 0]}
+              rotation={[0, 0, 0]}
+              scale={scale}
+            />
+            {showShadows && <ContactShadows position={[0, -2.6, 0]} opacity={0.4} scale={10} blur={2.5} far={4} resolution={256} color="#000000" />}
+          </Suspense>
 
-        <OrbitControls enableZoom={false} enablePan={false} enableRotate={true} autoRotate={false} maxPolarAngle={Math.PI / 2} minPolarAngle={Math.PI / 2} />
-      </Canvas>
+          <OrbitControls enableZoom={false} enablePan={false} enableRotate={true} autoRotate={false} maxPolarAngle={Math.PI / 2} minPolarAngle={Math.PI / 2} />
+        </Canvas>
+      )}
     </div>
   );
 }
 
-// The epic immersive Hero Dual-Avatar Scene!
-export function AvatarScene() {
-  return (
-    <div className="absolute inset-0 w-full h-full z-10 overflow-visible pointer-events-auto [&>canvas]:!touch-pan-y">
-      <Canvas camera={{ position: [0, 0, 8.5], fov: 40 }} shadows>
-        <ambientLight intensity={0.4} />
-        <spotLight position={[8, 10, 8]} angle={0.4} penumbra={1} intensity={12} color="#ffffff" castShadow />
-        <spotLight position={[-8, 10, -2]} angle={0.4} penumbra={1} intensity={8} color="#666666" castShadow />
-        <directionalLight position={[0, -2, -5]} intensity={2} color="#ffffff" />
-        <Environment preset="city" />
-
-        <Suspense fallback={null}>
-          <AvatarModel actionName="Typing" position={[-1.6, -3.2, 1.5]} rotation={[0, Math.PI / 6, 0]} scale={2.6} />
-          <AvatarModel actionName="Warrior" position={[1.8, -3.2, -1.5]} rotation={[0, -Math.PI / 8, 0]} scale={2.8} />
-          <ContactShadows position={[0, -3.2, 0]} opacity={0.7} scale={15} blur={2.5} far={4} color="#000" />
-        </Suspense>
-
-        <OrbitControls enableZoom={false} enablePan={false} enableRotate={true} autoRotate={false} maxPolarAngle={Math.PI / 2} minPolarAngle={Math.PI / 2} />
-      </Canvas>
-    </div>
-  );
-}
-
-// Universal GLTF & Native Three.js Animation loader (clones scene safely, physically flawless animation execution loop)
 function AvatarModel({ actionName, position, rotation, scale = 2.0 }: { actionName: ActionName, position: [number, number, number], rotation: [number, number, number], scale?: number }) {
-  const group = useRef<THREE.Group>(null);
+  const { scene } = useGLTF("/models/mymodel2-webp.glb");
+  const clonedScene = useMemo(() => {
+    const clone = SkeletonUtils.clone(scene) as THREE.Group;
+    return clone;
+  }, [scene]);
 
-  const { scene } = useGLTF("/models/66d01f8250a930dac18b05a9.glb");
-  const clonedScene = useMemo(() => SkeletonUtils.clone(scene), [scene]);
+  // Load the animations
+  const { animations: typingAnimations } = useFBX("/animations/Typing.fbx");
+  const { animations: warriorAnimations } = useFBX("/animations/Warrior Idle.fbx");
 
-  const { animations: typingAnimation } = useFBX("/animations/Typing.fbx");
-  const { animations: warriorAnimation } = useFBX("/animations/Warrior Idle.fbx");
-  const { animations: standingAnimation } = useFBX("/animations/Standing Idle.fbx");
-  const { animations: fallingAnimation } = useFBX("/animations/Falling Idle.fbx");
-  const { animations: talkingAnimation } = useFBX("/animations/Talking On Phone.fbx");
-  const { animations: layingAnimation } = useFBX("/animations/Male Laying Pose.fbx");
-
-  /*
-   * LEGENDARY WEBGL FIX:
-   * Mixamo constantly exports animations with broken or missing bone namespaces (e.g. mixamorig:) 
-   * depending on if you clicked "With Skin" or just randomly downloaded from their library.
-   * This normalizer violently intercepts EVERY animation track and mathematically forces 
-   * bone targets to instantly map to your unique ReadyPlayerMe character body!
-   */
-  const normalizeMixamoTracks = (clip: THREE.AnimationClip) => {
-    clip.tracks.forEach(track => {
-      if (track.name.includes('.quaternion') || track.name.includes('.position') || track.name.includes('.scale')) {
-        // Strip the annoying 'mixamorig:' namespace that Mixamo forces on un-skinned exports!
-        // ReadyPlayerMe avatars require purely named bones (e.g. "Hips", not "mixamorig:Hips")
-        track.name = track.name.split(':').pop() || track.name;
-      }
-    });
-  };
-
-  if (typingAnimation.length) { typingAnimation[0].name = "Typing"; normalizeMixamoTracks(typingAnimation[0]); }
-  if (warriorAnimation.length) { warriorAnimation[0].name = "Warrior"; normalizeMixamoTracks(warriorAnimation[0]); }
-  if (standingAnimation.length) { standingAnimation[0].name = "Standing"; normalizeMixamoTracks(standingAnimation[0]); }
-  if (fallingAnimation.length) { fallingAnimation[0].name = "Falling"; normalizeMixamoTracks(fallingAnimation[0]); }
-  if (talkingAnimation.length) { talkingAnimation[0].name = "Talking"; normalizeMixamoTracks(talkingAnimation[0]); }
-  if (layingAnimation.length) { layingAnimation[0].name = "Laying"; normalizeMixamoTracks(layingAnimation[0]); }
-
-  // MEMOIZE the animations cleanly
-  const allAnimations = useMemo(() => [
-    typingAnimation[0],
-    warriorAnimation[0],
-    standingAnimation[0],
-    fallingAnimation[0],
-    talkingAnimation[0],
-    layingAnimation[0]
-  ].filter(Boolean), [typingAnimation, warriorAnimation, standingAnimation, fallingAnimation, talkingAnimation, layingAnimation]);
-
-  /* 
-   * THE PERMANENT ARCHITECTURAL FIX:
-   * We completely rip out `@react-three/drei`'s `useAnimations` hook because it 
-   * possesses inherent Suspense boundary race-conditions.
-   * Instead, we construct a native `THREE.AnimationMixer` targeting the exact clone mathematically,
-   * driving it securely frame-by-frame via `useFrame(delta)`. Impossible to drop load frames now!
-   */
+  // Create the Animation Mixer targeting the skinned cloned scene
   const mixer = useMemo(() => new THREE.AnimationMixer(clonedScene), [clonedScene]);
   const currentAction = useRef<THREE.AnimationAction | null>(null);
 
   useEffect(() => {
-    // Attempt to locate the exact animation by name, otherwise fallback to "Standing"
-    const targetClip = allAnimations.find(a => a.name === actionName) || allAnimations.find(a => a.name === "Standing");
-    if (!targetClip) return;
+    const normalizeMixamoTracks = (clip: THREE.AnimationClip) => {
+      // Robust dynamic bone matching: find the exact bone name in the cloned scene
+      // to handle models with 'mixamorig:', 'mixamorig', or no prefix at all.
+      clip.tracks.forEach(track => {
+        if (track.name.includes('.quaternion') || track.name.includes('.position') || track.name.includes('.scale')) {
+          let boneName = track.name.split('.')[0];
+          const property = track.name.substring(boneName.length);
 
-    // Securely pull the clip data into the mathematical Mixer
-    const nextAction = mixer.clipAction(targetClip);
+          if (boneName.includes(':')) {
+            boneName = boneName.split(':').pop() || boneName;
+          } else if (boneName.startsWith('mixamorig')) {
+            boneName = boneName.replace('mixamorig', '');
+          }
 
-    // Only engage if calculating a structural state difference
-    if (currentAction.current !== nextAction) {
-      nextAction.reset().setEffectiveTimeScale(1).setEffectiveWeight(1).play();
+          let actualBoneName = boneName;
+          clonedScene.traverse((child: any) => {
+            if (child.isBone) {
+              if (child.name === boneName || child.name === `mixamorig:${boneName}` || child.name === `mixamorig${boneName}`) {
+                actualBoneName = child.name;
+              }
+            }
+          });
 
-      if (currentAction.current) {
-        // Blend from the old animation into the new animation smoothly over 0.5s!
-        nextAction.crossFadeFrom(currentAction.current, 0.5, true);
-      }
+          track.name = actualBoneName + property;
+        }
+      });
+    };
 
-      currentAction.current = nextAction;
+    const clips: { [key: string]: THREE.AnimationClip } = {};
+    
+    if (typingAnimations && typingAnimations.length > 0) {
+      const clip = typingAnimations[0].clone();
+      clip.name = "Typing";
+      normalizeMixamoTracks(clip);
+      clips["Typing"] = clip;
     }
-  }, [actionName, mixer, allAnimations]);
+    
+    if (warriorAnimations && warriorAnimations.length > 0) {
+      const clip = warriorAnimations[0].clone();
+      clip.name = "Warrior";
+      normalizeMixamoTracks(clip);
+      clips["Warrior"] = clip;
+    }
 
-  // Hooking the mathematical Mixer physical engine clock into the fiber draw-loop
+    const targetClip = clips[actionName];
+    
+    if (targetClip) {
+      const action = mixer.clipAction(targetClip);
+      action.reset().setEffectiveTimeScale(1).setEffectiveWeight(1).play();
+      
+      if (currentAction.current && currentAction.current !== action) {
+        action.crossFadeFrom(currentAction.current, 0.5, true);
+      }
+      currentAction.current = action;
+    } else {
+      // If other actions are requested but files don't exist, fade out any running animation
+      if (currentAction.current) {
+        currentAction.current.fadeOut(0.5);
+        currentAction.current = null;
+      }
+    }
+  }, [actionName, mixer, typingAnimations, warriorAnimations, clonedScene]);
+
+  // Drive the animation mixer on every frame delta
   useFrame((state, delta) => {
     mixer.update(delta);
   });
@@ -149,16 +136,20 @@ function AvatarModel({ actionName, position, rotation, scale = 2.0 }: { actionNa
       if (child.isMesh) {
         child.castShadow = true;
         child.receiveShadow = true;
-        child.frustumCulled = false; // prevents limbs disappearing during complex camera angles
+        child.frustumCulled = false;
       }
     });
   }, [clonedScene]);
 
+  // Blender's default FBX/GLB export scale is 100x larger than React Three Fiber standard.
+  // We apply a base multiplier of 0.01 so that your `scale={2.0}` prop works beautifully.
+  const normalizedScale = scale * 0.012;
+
   return (
-    <group ref={group} position={position} rotation={rotation} scale={scale} dispose={null}>
+    <group position={position} rotation={rotation} scale={normalizedScale} dispose={null}>
       <primitive object={clonedScene} />
     </group>
   );
 }
 
-useGLTF.preload("/models/66d01f8250a930dac18b05a9.glb");
+useGLTF.preload("/models/mymodel2-webp.glb");

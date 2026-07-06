@@ -34,7 +34,7 @@ export default function Contact() {
          <div className="absolute inset-0 z-0 pointer-events-none">
 
             <div className="absolute top-0 right-0 w-full lg:w-[65%] h-full pointer-events-auto z-10 opacity-40 lg:opacity-70">
-               <Avatar actionName="Warrior" scale={2.2} />
+               <Avatar actionName="Warrior" scale={1.4} />
             </div>
 
             {/* Ethereal Light Gradient Masks */}
